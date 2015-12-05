@@ -140,15 +140,21 @@ return [
         /*
          * Application Service Providers...
          */
-        CodeProject\Providers\AppServiceProvider::class,
-        CodeProject\Providers\AuthServiceProvider::class,
-        CodeProject\Providers\EventServiceProvider::class,
-        CodeProject\Providers\RouteServiceProvider::class,
+	    CodeProject\Providers\AppServiceProvider::class,
+	    CodeProject\Providers\AuthServiceProvider::class,
+	    CodeProject\Providers\EventServiceProvider::class,
+	    CodeProject\Providers\RouteServiceProvider::class,
+	    CodeProject\Providers\RepositoriesProvider::class,
 
 	    /*
 	     * https://github.com/barryvdh/laravel-ide-helper
 	     */
 	    Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+	    /*
+	     * https://github.com/andersao/l5-repository
+	     */
+	    Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
     ],
 

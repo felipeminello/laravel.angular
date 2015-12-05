@@ -1,6 +1,6 @@
 <?php
 
-use CodeProject\User;
+use CodeProject\Entities\User;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
