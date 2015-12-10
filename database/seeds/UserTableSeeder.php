@@ -1,6 +1,6 @@
 <?php
 
-use CodeProject\User;
+use CodeProject\Entities\User;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
@@ -12,8 +12,8 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-	    User::truncate();
+//	    User::truncate();
 
-	    factory(User::class)->create();
+	    factory(User::class, 10)->create();
     }
 }
