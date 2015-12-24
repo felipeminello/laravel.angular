@@ -1,5 +1,6 @@
 <?php
 
+use CodeProject\Entities\ProjectNote;
 use Illuminate\Database\Seeder;
 
 class ProjectNoteTableSeeder extends Seeder
@@ -11,6 +12,8 @@ class ProjectNoteTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\CodeProject\Entities\ProjectNote::class, 50)->create();
+		ProjectNote::truncate();
+
+        factory(ProjectNote::class, 50)->create();
     }
 }
