@@ -37,7 +37,7 @@ class CheckProjectOwner
 
 			return ['error' => 'Access forbidden'];
 		}
-		
+
 		return $next($request);
 	}
 }
