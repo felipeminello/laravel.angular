@@ -3,7 +3,7 @@
 namespace CodeProject\Http\Controllers;
 
 use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Services\ProjectNoteService;
+use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
@@ -14,10 +14,10 @@ class ProjectController extends Controller
     private $repository;
 	private $service;
 
-	public function __construct(ProjectRepository $projectRepository, ProjectNoteService $projectNoteService)
+	public function __construct(ProjectRepository $projectRepository, ProjectService $projectService)
 	{
 		$this->repository = $projectRepository;
-		$this->service = $projectNoteService;
+		$this->service = $projectService;
 	}
 
 	public function index()
