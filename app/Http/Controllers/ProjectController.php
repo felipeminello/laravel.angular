@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
+use Authorizer;
 
 class ProjectController extends Controller
 {
@@ -44,7 +45,13 @@ class ProjectController extends Controller
 	 */
 	public function show($id)
 	{
-		return $this->repository->find($id);
+		$userId = Authorizer::getResourceOwnerId();
+
+		if ($this->repository->isOwner($id, $userId)) {
+			return $this->repository->find($id);
+		} else {
+			return ['success' => false];
+		}
 	}
 
 	/**
