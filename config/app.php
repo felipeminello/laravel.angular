@@ -156,6 +156,12 @@ return [
 	     */
 	    Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
+		/*
+		 * https://github.com/lucadegasperi/oauth2-server-laravel
+		 */
+		LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+		LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+
     ],
 
     /*
@@ -204,6 +210,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
+		'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
     ],
 
 ];
