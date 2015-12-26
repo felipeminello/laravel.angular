@@ -85,6 +85,11 @@ class ProjectController extends Controller
 		$this->repository->find($id)->delete();
 	}
 
+	/**
+	 * @param $projectId
+	 *
+	 * @return mixed
+	 */
 	private function checkProjectOwner($projectId)
 	{
 		$userId = Authorizer::getResourceOwnerId();
@@ -92,6 +97,11 @@ class ProjectController extends Controller
 		return $this->repository->isOwner($projectId, $userId);
 	}
 
+	/**
+	 * @param $projectId
+	 *
+	 * @return mixed
+	 */
 	private function checkProjectMember($projectId)
 	{
 		$userId = Authorizer::getResourceOwnerId();
@@ -99,6 +109,11 @@ class ProjectController extends Controller
 		return $this->repository->hasMember($projectId, $userId);
 	}
 
+	/**
+	 * @param $projectId
+	 *
+	 * @return bool
+	 */
 	private function checkProjectPermissions($projectId)
 	{
 		if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId))
