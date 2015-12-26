@@ -2,20 +2,43 @@
 
 namespace CodeProject\Http\Controllers;
 
-use File;
+use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
-use Storage;
 
 class ProjectFileController extends Controller
 {
-    public function store(Request $request)
+
+	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
+
+	/**
+	 * ProjectFileController constructor.
+	 *
+	 * @param ProjectService $projectService
+	 */
+	public function __construct(ProjectService $projectService)
+	{
+
+		$this->projectService = $projectService;
+	}
+
+	public function store(Request $request)
 	{
 		$file = $request->file('file');
 		$extension = $file->getClientOriginalExtension();
 
-		Storage::put($request->name.'.'.$extension, File::get($file));
+		$data = [
+			'file' => $file,
+			'extension' => $extension,
+			'name' => $request->name,
+			'description' => $request->description
+		];
+
+		$this->projectService->createFile($data);
 	}
 }

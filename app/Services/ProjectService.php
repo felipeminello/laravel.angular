@@ -4,7 +4,9 @@ namespace CodeProject\Services;
 
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectValidator;
+use File;
 use Prettus\Validator\Exceptions\ValidatorException;
+use Storage;
 
 class ProjectService
 {
@@ -68,5 +70,10 @@ class ProjectService
 			];
 		}
 
+	}
+
+	public function createFile(array $data)
+	{
+		Storage::put($data['name'].'.'.$data['extension'], File::get($data['file']));
 	}
 }
