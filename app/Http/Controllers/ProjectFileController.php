@@ -33,6 +33,7 @@ class ProjectFileController extends Controller
 		$extension = $file->getClientOriginalExtension();
 
 		$data = [
+			'project_id' => $request->project_id,
 			'file' => $file,
 			'extension' => $extension,
 			'name' => $request->name,
