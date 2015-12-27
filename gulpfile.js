@@ -51,8 +51,15 @@ gulp.task('copy-scripts', function () {
         .pipe(liveReload());
 
     gulp.src(config.vendor_path_js)
-        .pipe(gulp.dest(config.build_vendor_path_css))
+        .pipe(gulp.dest(config.build_vendor_path_js))
         .pipe(liveReload());
+});
+
+gulp.task('watch-dev', function() {
+    liveReload.listen();
+    gulp.start('copy-styles', 'copy-scripts');
+
+    gulp.watch(config.assets_path + '/**', ['copy-styles', 'copy-scripts']);
 });
 
 /*
