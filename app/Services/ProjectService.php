@@ -30,10 +30,10 @@ class ProjectService
 	/**
 	 * ProjectService constructor.
 	 *
-	 * @param ProjectRepository $repository
-	 * @param ProjectValidator  $validator
-	 * @param Filesystem        $filesystem
-	 * @param Storage           $storage
+	 * @param ProjectRepository       $repository
+	 * @param ProjectValidator        $validator
+	 * @param Filesystem              $filesystem
+	 * @param Storage                 $storage
 	 */
 	public function __construct(ProjectRepository $repository, ProjectValidator $validator, Filesystem $filesystem, Storage $storage)
 	{
@@ -80,7 +80,45 @@ class ProjectService
 				'message' => $e->getMessageBag()
 			];
 		}
+	}
 
+	public function addMember(array $data)
+	{
+		try {
+			$userId = $data['user_id'];
+			$projectId = $data['project_id'];
+
+			return $this->repository->addMember($projectId, $userId);
+		} catch (ValidatorException $e) {
+			return [
+				'error'   => true,
+				'message' => $e->getMessageBag()
+			];
+		}
+	}
+
+	public function showMembers($projectId)
+	{
+		try {
+			return $this->repository->skipPresenter()->find($projectId)->members;
+		} catch (ValidatorException $e) {
+			return [
+				'error'   => true,
+				'message' => $e->getMessageBag()
+			];
+		}
+	}
+
+	public function removeMember($projectId, $memberId)
+	{
+		try {
+			return $this->repository->removeMember($projectId, $memberId);
+		} catch (ValidatorException $e) {
+			return [
+				'error'   => true,
+				'message' => $e->getMessageBag()
+			];
+		}
 	}
 
 	/**

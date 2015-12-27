@@ -43,7 +43,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
 
 	public function hasMember($projectId, $memberId)
 	{
-		$project = $this->find($projectId);
+		$project = $this->skipPresenter()->find($projectId);
 
 		foreach ($project->members as $member)
 		{
@@ -51,8 +51,21 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
 				return true;
 			}
 		}
-
 		return false;
+	}
+
+	public function addMember($projectId, $memberId)
+	{
+		$project = $this->skipPresenter()->find($projectId);
+
+		return $project->projectMembers()->firstOrCreate(['project_id' => $project->id, 'member_id' => $memberId]);
+	}
+
+	public function removeMember($projectId, $memberId)
+	{
+		$project = $this->skipPresenter()->find($projectId);
+
+		return $project->projectMembers()->where(['member_id' => $memberId])->delete();
 	}
 
 	public function presenter()
