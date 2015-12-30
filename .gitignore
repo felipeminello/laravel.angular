@@ -5,3 +5,7 @@ Homestead.json
 .env
 .phpstorm.meta.php
 _ide_helper.php
+resources/bower_components
+public/build
+public/css
+public/js
