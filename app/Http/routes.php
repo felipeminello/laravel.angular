@@ -19,7 +19,7 @@ Route::post('oauth/access_token', function () {
 	return Response::json(Authorizer::issueAccessToken());
 });
 
-Route::group(['middleware' => 'oauth'], function () {
+// Route::group(['middleware' => 'oauth'], function () {
 	Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
 	Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
@@ -31,6 +31,16 @@ Route::group(['middleware' => 'oauth'], function () {
 		Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
 		Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
+		Route::get('{id}/task', 'ProjectTaskController@index');
+		Route::post('{id}/task', 'ProjectTaskController@store');
+		Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
+		Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
+		Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
+
+		Route::get('{id}/members', 'ProjectMemberController@index');
+		Route::post('{id}/members', 'ProjectMemberController@store');
+		Route::delete('{id}/members/{memberId}', 'ProjectMemberController@destroy');
+
 		Route::post('{id}/file', 'ProjectFileController@store');
 	});
-});
+// });
