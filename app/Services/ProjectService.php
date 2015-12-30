@@ -3,6 +3,7 @@
 namespace CodeProject\Services;
 
 use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Validators\ProjectMemberValidator;
 use CodeProject\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Illuminate\Filesystem\Filesystem;
@@ -26,21 +27,27 @@ class ProjectService
 	 * @var Storage
 	 */
 	private $storage;
+	/**
+	 * @var ProjectMemberValidator
+	 */
+	private $memberValidator;
 
 	/**
 	 * ProjectService constructor.
 	 *
-	 * @param ProjectRepository       $repository
-	 * @param ProjectValidator        $validator
-	 * @param Filesystem              $filesystem
-	 * @param Storage                 $storage
+	 * @param ProjectRepository      $repository
+	 * @param ProjectValidator       $validator
+	 * @param ProjectMemberValidator $memberValidator
+	 * @param Filesystem             $filesystem
+	 * @param Storage                $storage
 	 */
-	public function __construct(ProjectRepository $repository, ProjectValidator $validator, Filesystem $filesystem, Storage $storage)
+	public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectMemberValidator $memberValidator, Filesystem $filesystem, Storage $storage)
 	{
 		$this->repository = $repository;
 		$this->validator = $validator;
 		$this->filesystem = $filesystem;
 		$this->storage = $storage;
+		$this->memberValidator = $memberValidator;
 	}
 
 	/**
@@ -82,13 +89,17 @@ class ProjectService
 		}
 	}
 
+	/**
+	 * @param array $data
+	 *
+	 * @return array
+	 */
 	public function addMember(array $data)
 	{
 		try {
-			$userId = $data['user_id'];
-			$projectId = $data['project_id'];
+			$this->memberValidator->with($data)->passesOrFail();
 
-			return $this->repository->addMember($projectId, $userId);
+			return $this->repository->addMember($data['project_id'], $data['member_id']);
 		} catch (ValidatorException $e) {
 			return [
 				'error'   => true,
@@ -97,6 +108,11 @@ class ProjectService
 		}
 	}
 
+	/**
+	 * @param $projectId
+	 *
+	 * @return array
+	 */
 	public function showMembers($projectId)
 	{
 		try {
@@ -109,6 +125,12 @@ class ProjectService
 		}
 	}
 
+	/**
+	 * @param $projectId
+	 * @param $memberId
+	 *
+	 * @return array
+	 */
 	public function removeMember($projectId, $memberId)
 	{
 		try {

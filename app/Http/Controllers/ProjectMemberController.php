@@ -29,30 +29,33 @@ class ProjectMemberController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-    public function index($id)
-    {
-        return $this->service->showMembers($id);
-    }
+	public function index($id)
+	{
+		return $this->service->showMembers($id);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
 		return $this->service->addMember($request->all());
-    }
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id, $memberId)
-    {
-        $this->service->removeMember($id, $memberId);
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int $id
+	 * @param  int $memberId
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id, $memberId)
+	{
+		$this->service->removeMember($id, $memberId);
+	}
 }
