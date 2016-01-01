@@ -5,16 +5,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                    <!--@if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+
+                    <div class="alert alert-danger" ng-show="error.error">
+                        <strong>Whoops!</strong> Ocorreram erros.<br><br>
+                        <div>{{ error.message  }}</div>
                     </div>
-                    @endif-->
 
                     <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="login()">
 
@@ -41,8 +36,6 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">Login</button>
-
-                                <a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
                             </div>
                         </div>
                     </form>
