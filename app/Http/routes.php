@@ -19,7 +19,7 @@ Route::post('oauth/access_token', function () {
 	return Response::json(Authorizer::issueAccessToken());
 });
 
-// Route::group(['middleware' => 'oauth'], function () {
+Route::group(['middleware' => 'oauth'], function () {
 	Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
 	Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
@@ -42,5 +42,6 @@ Route::post('oauth/access_token', function () {
 		Route::delete('{id}/members/{memberId}', 'ProjectMemberController@destroy');
 
 		Route::post('{id}/file', 'ProjectFileController@store');
+		Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 	});
-// });
+});

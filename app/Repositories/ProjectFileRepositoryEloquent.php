@@ -2,16 +2,16 @@
 
 namespace CodeProject\Repositories;
 
-use CodeProject\Presenters\ProjectTaskPresenter;
+use CodeProject\Presenters\ProjectFilePresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use CodeProject\Entities\ProjectTask;
+use CodeProject\Entities\ProjectFile;
 
 /**
- * Class ProjectTaskRepositoryEloquent
+ * Class ProjectFileRepositoryEloquent
  * @package namespace CodeProject\Repositories;
  */
-class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTaskRepository
+class ProjectFileRepositoryEloquent extends BaseRepository implements ProjectFileRepository
 {
     /**
      * Specify Model class name
@@ -20,19 +20,20 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
      */
     public function model()
     {
-        return ProjectTask::class;
+        return ProjectFile::class;
     }
 
-	public function presenter()
-	{
-		return ProjectTaskPresenter::class;
-	}
-
-	/**
+    /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+
+	public function presenter()
+	{
+		return ProjectFilePresenter::class;
+	}
 }

@@ -60,4 +60,3 @@ $factory->define(CodeProject\Entities\ProjectTask::class, function (Faker\Genera
 		'status' => rand(1, 100),
 	];
 });
-
