@@ -50,14 +50,13 @@ class ProjectFileController extends Controller
 
 	/**
 	 * @param Request $request
+	 * @param         $id
 	 *
 	 * @return array
 	 */
-	public function store(Request $request)
+	public function store(Request $request, $id)
 	{
-		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
-
-		if ($this->checkProjectPermissions($projectId) == false) {
+		if (empty($id) or $this->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
@@ -72,7 +71,7 @@ class ProjectFileController extends Controller
 	 */
 	public function destroy($id, $fileId)
 	{
-		if ($this->checkProjectOwner($id) == false) {
+		if (empty($id) or $this->checkProjectOwner($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
