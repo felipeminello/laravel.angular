@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Cadastro de cliente</div>
+                <div class="panel-body">
+                    <form class="form" name="form" role="form" ng-submit="save()">
+
+                        <div class="form-group col-md-6" ng-class="{'has-error': !form.name.$valid && form.name.$touched}">
+                            <label>Name</label>
+
+                            <input type="text" class="form-control" name="name" ng-model="client.name" required>
+                            <div ng-messages="form.name.$error" class="help-block" ng-show="form.name.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-class="{'has-error': !form.email.$valid && form.email.$touched}">
+                            <label>Email</label>
+
+                            <input type="email" class="form-control" name="email" ng-model="client.email" required>
+                            <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                                <div ng-message="email">Email inválido</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-class="{'has-error': !form.responsable.$valid && form.responsable.$touched}">
+                            <label>Responsable</label>
+
+                            <input type="text" class="form-control" name="responsable" ng-model="client.responsable" required>
+                            <div ng-messages="form.responsable.$error" class="help-block" ng-show="form.responsable.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-class="{'has-error': !form.phone.$valid && form.phone.$touched}">
+                            <label>Phone</label>
+
+                            <input type="text" class="form-control" name="phone" ng-model="client.phone" required>
+                            <div ng-messages="form.phone.$error" class="help-block" ng-show="form.phone.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-6" ng-class="{'has-error': !form.address.$valid && form.address.$touched}">
+                            <label>Address</label>
+
+                            <textarea class="form-control" name="address" ng-model="client.address" required></textarea>
+                            <div ng-messages="form.address.$error" class="help-block" ng-show="form.address.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-6" ng-class="{'has-error': !form.obs.$valid && form.obs.$touched}">
+                            <label>Observation</label>
+
+                            <textarea class="form-control" name="obs" ng-model="client.obs" required></textarea>
+                            <div ng-messages="form.obs.$error" class="help-block" ng-show="form.obs.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-12">
+
+                                <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
