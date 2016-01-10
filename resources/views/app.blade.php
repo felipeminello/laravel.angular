@@ -44,7 +44,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					@if(auth()->guest())
 						@if(!Request::is('auth/login'))
-							<li><a href="{{ url('/auth/login') }}">Login</a></li>
+							<li><a href="{{ url('/#/login') }}">Login</a></li>
 						@endif
 						@if(!Request::is('auth/register'))
 							<li><a href="{{ url('/auth/register') }}">Register</a></li>
@@ -82,13 +82,20 @@
         {{-- CONTROLLERS --}}
         <script src="{{ asset('build/js/controllers/login.js') }}"></script>
         <script src="{{ asset('build/js/controllers/home.js') }}"></script>
+
         <script src="{{ asset('build/js/controllers/client/clientList.js') }}"></script>
         <script src="{{ asset('build/js/controllers/client/clientNew.js') }}"></script>
         <script src="{{ asset('build/js/controllers/client/clientEdit.js') }}"></script>
         <script src="{{ asset('build/js/controllers/client/clientRemove.js') }}"></script>
 
+        <script src="{{ asset('build/js/controllers/project-note/projectNoteList.js') }}"></script>
+        <script src="{{ asset('build/js/controllers/project-note/projectNoteNew.js') }}"></script>
+        <script src="{{ asset('build/js/controllers/project-note/projectNoteEdit.js') }}"></script>
+
         {{-- SERVICES --}}
         <script src="{{ asset('build/js/services/client.js') }}"></script>
+        <script src="{{ asset('build/js/services/project.js') }}"></script>
+        <script src="{{ asset('build/js/services/projectNote.js') }}"></script>
     @else
         <script src="{{ elixir('js/all.js') }}"></script>
     @endif
