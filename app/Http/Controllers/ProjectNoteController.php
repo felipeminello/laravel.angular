@@ -48,7 +48,7 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->findWhere(['project_id' => $id]);
+		return $this->repository->with('project')->findWhere(['project_id' => $id]);
 	}
 
 	/**
