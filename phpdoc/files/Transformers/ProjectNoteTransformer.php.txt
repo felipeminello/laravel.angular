@@ -1,0 +1,26 @@
+<?php
+
+namespace CodeProject\Transformers;
+
+use CodeProject\Entities\ProjectNote;
+use League\Fractal\TransformerAbstract;
+
+/**
+ * Class ProjectNoteTransformer
+ * @package namespace CodeProject\Transformers;
+ */
+class ProjectNoteTransformer extends TransformerAbstract
+{
+    public function transform(ProjectNote $projectNote)
+    {
+        return [
+			'id' => $projectNote->id,
+			'project_id' => $projectNote->project_id,
+			'title' => $projectNote->title,
+			'note' => $projectNote->note,
+            'created_at' => $projectNote->created_at,
+            'updated_at' => $projectNote->updated_at,
+        ];
+    }
+}
+
