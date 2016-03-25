@@ -11,6 +11,7 @@ class ProjectNote extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = ['project_id', 'title', 'note'];
+	protected $hidden = ['created_at', 'updated_at'];
 
 	public function project()
 	{

@@ -49,10 +49,6 @@ app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigP
         .when('/project/:id/notes/new', {
             templateUrl: 'build/views/project-note/new.html',
             controller: 'ProjectNoteNewController'
-        })
-        .when('/project/:id/notes/:idNote', {
-            templateUrl: 'build/views/project-note/edit.html',
-            controller: 'ProjectNoteEditController'
         });
 
     OAuthProvider.configure({
@@ -71,7 +67,18 @@ app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigP
 
 }]);
 
-app.run(['$rootScope', '$window', 'OAuth', function ($rootScope, $window, OAuth) {
+app.run(['$rootScope', '$window', '$cookieStore', '$http', 'OAuth', function ($rootScope, $window, $cookieStore, $http, OAuth) {
+    var token = $cookieStore.get('token').access_token;
+    $http({
+        method: 'GET',
+        url: '/user',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }).then(function(response) {
+        console.log(response.data);
+    });
+    
     $rootScope.$on('oauth:error', function (event, rejection) {
         // Ignore `invalid_grant` error - should be catched on `LoginController`.
         if ('invalid_grant' === rejection.data.error) {
