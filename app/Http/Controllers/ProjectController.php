@@ -25,7 +25,7 @@ class ProjectController extends Controller
 	{
 		$userId = Authorizer::getResourceOwnerId();
 
-		return $this->repository->skipPresenter()->with(['client', 'owner'])->findWhere(['owner_id' => $userId]);
+		return $this->service->listMemberOwner($userId);
 	}
 
 	/**

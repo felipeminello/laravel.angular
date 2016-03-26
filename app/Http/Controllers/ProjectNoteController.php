@@ -116,7 +116,8 @@ class ProjectNoteController extends Controller
 		try
 		{
 			$projectNote = $this->repository->find($noteId);
-			
+
+
 			if (empty($projectNote))
 			{
 				return ['error' => 'ProjectNote not found'];
