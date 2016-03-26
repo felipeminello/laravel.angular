@@ -12,6 +12,8 @@ use League\Fractal\TransformerAbstract;
  */
 class ProjectNoteTransformer extends TransformerAbstract
 {
+	protected $defaultIncludes = ['project'];
+
 	public function transform(ProjectNote $projectNote)
 	{
 		return [
@@ -19,8 +21,14 @@ class ProjectNoteTransformer extends TransformerAbstract
 			'project_id' => $projectNote->project_id,
 			'title'      => $projectNote->title,
 			'note'       => $projectNote->note,
+//			'project'    => $projectNote->project,
 //			'created_at' => $projectNote->created_at,
 //			'updated_at' => $projectNote->updated_at,
 		];
+	}
+
+	public function includeProject(ProjectNote $projectNote)
+	{
+		return $this->collection($projectNote->project()->get(), new ProjectTransformer());
 	}
 }

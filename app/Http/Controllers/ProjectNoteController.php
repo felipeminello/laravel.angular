@@ -49,7 +49,7 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->skipPresenter()->with('project')->findWhere(['project_id' => $id]);
+		return $this->repository->with('project')->findWhere(['project_id' => $id]);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId])->first();
+		return $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId]);
 	}
 
 	/**
@@ -115,13 +115,13 @@ class ProjectNoteController extends Controller
 
 		try
 		{
-			$projectNote = $this->repository->find($noteId);
-
+			$projectNote = $this->repository->skipPresenter()->find($noteId);
 
 			if (empty($projectNote))
 			{
 				return ['error' => 'ProjectNote not found'];
 			}
+
 			$projectNote->delete();
 		} catch (\Exception $e) {
 			return ['error' => $e->getMessage()];

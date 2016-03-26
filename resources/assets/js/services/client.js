@@ -16,6 +16,17 @@ angular.module('app.services')
 
                     return dataJson;
                 }
+            },
+            get: {
+                method: 'GET',
+                isArray: false,
+                transformResponse: function(data, headers) {
+                    var dataJson = JSON.parse(data);
+
+                    dataJson = dataJson.data;
+
+                    return dataJson;
+                }
             }
         });
     }]);
