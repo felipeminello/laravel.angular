@@ -4,17 +4,6 @@ angular.module('app.services')
             update: {
                 method: 'PUT'
             },
-            query: {
-                method: 'GET',
-                isArray: true,
-                transformResponse: function(data, headers) {
-                    var dataJson = JSON.parse(data);
-
-                    dataJson = dataJson.data;
-
-                    return dataJson;
-                }
-            },
             get: {
                 method: 'GET',
                 isArray: false,
