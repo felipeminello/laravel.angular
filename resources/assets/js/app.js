@@ -49,6 +49,14 @@ app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigP
         .when('/project/:id/notes/new', {
             templateUrl: 'build/views/project-note/new.html',
             controller: 'ProjectNoteNewController'
+        })
+        .when('/project/:id/notes/:idNote/edit', {
+            templateUrl: 'build/views/project-note/edit.html',
+            controller: 'ProjectNoteEditController'
+        })
+        .when('/project/:id/notes/:idNote/remove', {
+            templateUrl: 'build/views/project-note/remove.html',
+            controller: 'ProjectNoteRemoveController'
         });
 
     OAuthProvider.configure({
@@ -68,17 +76,19 @@ app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigP
 }]);
 
 app.run(['$rootScope', '$window', '$cookieStore', '$http', 'OAuth', function ($rootScope, $window, $cookieStore, $http, OAuth) {
-    var token = $cookieStore.get('token').access_token;
-    $http({
-        method: 'GET',
-        url: '/user',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    }).then(function(response) {
-        console.log(response.data);
-    });
-    
+    if ($cookieStore.get('token')) {
+        var token = $cookieStore.get('token').access_token;
+        $http({
+            method: 'GET',
+            url: '/user',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }).then(function(response) {
+            console.log(response.data);
+        });
+    }
+
     $rootScope.$on('oauth:error', function (event, rejection) {
         // Ignore `invalid_grant` error - should be catched on `LoginController`.
         if ('invalid_grant' === rejection.data.error) {
@@ -91,6 +101,6 @@ app.run(['$rootScope', '$window', '$cookieStore', '$http', 'OAuth', function ($r
         }
 
         // Redirect to `/login` with the `error_reason`.
-        return $window.location.href = '/login?error_reason=' + rejection.data.error;
+        return $window.location.href = '/auth/login?error_reason=' + rejection.data.error;
     });
 }]);

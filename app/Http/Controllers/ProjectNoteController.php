@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 class ProjectNoteController extends Controller
 {
@@ -80,7 +81,7 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
+		return $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId])->first();
 	}
 
 	/**
@@ -107,11 +108,23 @@ class ProjectNoteController extends Controller
 	 */
 	public function destroy($id, $noteId)
 	{
+
 		if ($this->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->find($noteId)->delete();
+		try
+		{
+			$projectNote = $this->repository->find($noteId);
+			
+			if (empty($projectNote))
+			{
+				return ['error' => 'ProjectNote not found'];
+			}
+			$projectNote->delete();
+		} catch (\Exception $e) {
+			return ['error' => $e->getMessage()];
+		}
 	}
 
 	/**
