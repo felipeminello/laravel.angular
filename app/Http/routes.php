@@ -71,6 +71,10 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::post('{id}/file', 'ProjectFileController@store');
 			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 		});
+
+		Route::group(['prefix' => 'user'], function() {
+			Route::get('authenticated', 'UserController@show');
+		});
 	});
 });
 
