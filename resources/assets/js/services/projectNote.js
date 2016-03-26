@@ -3,17 +3,6 @@ angular.module('app.services')
         return $resource(appConfig.baseUrl + '/project/:id/note/:idNote', { id: '@id', idNote: '@idNote' }, {
             update: {
                 method: 'PUT'
-            },
-            get: {
-                method: 'GET',
-                isArray: false,
-                transformResponse: function(data, headers) {
-                    var dataJson = JSON.parse(data);
-
-                    dataJson = dataJson.data;
-
-                    return dataJson[0];
-                }
             }
         });
     }]);

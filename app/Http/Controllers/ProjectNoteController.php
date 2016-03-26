@@ -81,7 +81,15 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId]);
+		$result = $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId]);
+
+		if (isset($result['data']) && count($result['data']) == 1) {
+			$result = [
+				'data' => $result['data'][0]
+			];
+		}
+
+		return $result;
 	}
 
 	/**
