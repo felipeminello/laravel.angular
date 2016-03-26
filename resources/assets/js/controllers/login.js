@@ -15,7 +15,6 @@ angular.module('app.controllers')
                 OAuth.getAccessToken($scope.user).then(function () {
                     $location.path('home');
                 }, function (data) {
-                    console.log(data);
                     $scope.error.error = true;
                     $scope.error.message = data.data.error_description;
                 });

@@ -2,26 +2,54 @@
 
 namespace CodeProject\Http\Controllers;
 
+use Authorizer;
 use CodeProject\Repositories\ProjectNoteRepository;
+use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ProjectNoteService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 class ProjectNoteController extends Controller
 {
+	/**
+	 * @var ProjectNoteRepository
+	 */
     private $repository;
+
+	/**
+	 * @var ProjectNoteService
+	 */
 	private $service;
 
-	public function __construct(ProjectNoteRepository $projectNoteRepository, ProjectNoteService $projectNoteService)
+	/**
+	 * @var ProjectRepository
+	 */
+	private $projectRepository;
+
+	/**
+	 * ProjectNoteController constructor.
+	 *
+	 * @param ProjectNoteRepository $projectNoteRepository
+	 * @param ProjectNoteService    $projectNoteService
+	 * @param ProjectRepository     $projectRepository
+	 */
+	public function __construct(ProjectNoteRepository $projectNoteRepository, ProjectNoteService $projectNoteService, ProjectRepository $projectRepository)
 	{
 		$this->repository = $projectNoteRepository;
 		$this->service = $projectNoteService;
+		$this->projectRepository = $projectRepository;
 	}
+
 	public function index($id)
 	{
-		return $this->repository->with('project')->findWhere(['project_id' => $id]);
+		if ($this->checkProjectPermissions($id) == false) {
+			return ['error' => 'Access forbidden'];
+		}
+
+		return $this->repository->skipPresenter()->with('project')->findWhere(['project_id' => $id]);
 	}
 
 	/**
@@ -32,6 +60,12 @@ class ProjectNoteController extends Controller
 	 */
 	public function store(Request $request)
 	{
+		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+
+		if ($this->checkProjectPermissions($projectId) == false) {
+			return ['error' => 'Access forbidden'];
+		}
+
 		return $this->service->create($request->all());
 	}
 
@@ -43,7 +77,11 @@ class ProjectNoteController extends Controller
 	 */
 	public function show($id, $noteId)
 	{
-		return $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
+		if ($this->checkProjectPermissions($id) == false) {
+			return ['error' => 'Access forbidden'];
+		}
+
+		return $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId])->first();
 	}
 
 	/**
@@ -55,6 +93,10 @@ class ProjectNoteController extends Controller
 	 */
 	public function update(Request $request, $id, $noteId)
 	{
+		if ($this->checkProjectPermissions($id) == false) {
+			return ['error' => 'Access forbidden'];
+		}
+
 		return $this->service->update($request->all(), $noteId);
 	}
 
@@ -66,6 +108,60 @@ class ProjectNoteController extends Controller
 	 */
 	public function destroy($id, $noteId)
 	{
-		$this->repository->find($noteId)->delete();
+
+		if ($this->checkProjectPermissions($id) == false) {
+			return ['error' => 'Access forbidden'];
+		}
+
+		try
+		{
+			$projectNote = $this->repository->find($noteId);
+			
+			if (empty($projectNote))
+			{
+				return ['error' => 'ProjectNote not found'];
+			}
+			$projectNote->delete();
+		} catch (\Exception $e) {
+			return ['error' => $e->getMessage()];
+		}
+	}
+
+	/**
+	 * @param $projectId
+	 *
+	 * @return mixed
+	 */
+	private function checkProjectOwner($projectId)
+	{
+		$userId = Authorizer::getResourceOwnerId();
+
+		return $this->projectRepository->isOwner($projectId, $userId);
+	}
+
+	/**
+	 * @param $projectId
+	 *
+	 * @return mixed
+	 */
+	private function checkProjectMember($projectId)
+	{
+		$userId = Authorizer::getResourceOwnerId();
+
+		return $this->projectRepository->hasMember($projectId, $userId);
+	}
+
+	/**
+	 * @param $projectId
+	 *
+	 * @return bool
+	 */
+	private function checkProjectPermissions($projectId)
+	{
+		if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId))
+			return true;
+		else
+			return false;
+
 	}
 }

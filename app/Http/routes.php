@@ -11,51 +11,66 @@
 |
 */
 
-Route::get('/', function () {
-	return view('app');
-});
+Route::group(['middleware' => 'clear-view-cache'], function() {
+	Route::get('/', function () {
+		return view('app');
+	});
 
-Route::get('home', function () {
-	return view('home');
-});
+	Route::get('home', function () {
+		return view('home');
+	});
 
-Route::post('oauth/access_token', function () {
-	return Response::json(Authorizer::issueAccessToken());
-});
+	Route::post('oauth/access_token', function () {
+		return Response::json(Authorizer::issueAccessToken());
+	});
 
-Route::group(['prefix' => 'auth'], function () {
-	// Authentication routes...
-	Route::get('login', 'Auth\AuthController@getLogin');
-	Route::post('login', 'Auth\AuthController@postLogin');
-	Route::get('logout', 'Auth\AuthController@getLogout');
+	Route::group(['prefix' => 'auth'], function () {
+		// Authentication routes...
+		Route::get('login', 'Auth\AuthController@getLogin');
+		Route::post('login', 'Auth\AuthController@postLogin');
+		Route::get('logout', 'Auth\AuthController@getLogout');
 
-	// Registration routes...
-	Route::get('register', 'Auth\AuthController@getRegister');
-	Route::post('register', 'Auth\AuthController@postRegister');
-});
+		// Registration routes...
+		Route::get('register', 'Auth\AuthController@getRegister');
+		Route::post('register', 'Auth\AuthController@postRegister');
+	});
 
-Route::group(['prefix' => 'password'], function () {
-	// Password reset link request routes...
-	Route::get('email', 'Auth\PasswordController@getEmail');
-	Route::post('email', 'Auth\PasswordController@postEmail');
+	Route::group(['prefix' => 'password'], function () {
+		// Password reset link request routes...
+		Route::get('email', 'Auth\PasswordController@getEmail');
+		Route::post('email', 'Auth\PasswordController@postEmail');
 
-	// Password reset routes...
-	Route::get('reset/{token}', 'Auth\PasswordController@getReset');
-	Route::post('reset', 'Auth\PasswordController@postReset');
-});
+		// Password reset routes...
+		Route::get('reset/{token}', 'Auth\PasswordController@getReset');
+		Route::post('reset', 'Auth\PasswordController@postReset');
+	});
 
-Route::group(['middleware' => 'oauth'], function () {
-	Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
+	Route::group(['middleware' => 'oauth'], function () {
+		Route::get('user', 'UserController@show');
+		Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
-	Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
+		Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
 
-	Route::group(['prefix' => 'project'], function () {
-		Route::get('{id}/note', 'ProjectNoteController@index');
-		Route::post('{id}/note', 'ProjectNoteController@store');
-		Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
-		Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
-		Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
+		Route::group(['prefix' => 'project'], function () {
+			Route::get('{id}/note', 'ProjectNoteController@index');
+			Route::post('{id}/note', 'ProjectNoteController@store');
+			Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
+			Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
+			Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
-		Route::post('{id}/file', 'ProjectFileController@store');
+			Route::get('{id}/task', 'ProjectTaskController@index');
+			Route::post('{id}/task', 'ProjectTaskController@store');
+			Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
+			Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
+			Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
+
+			Route::get('{id}/members', 'ProjectMemberController@index');
+			Route::post('{id}/members', 'ProjectMemberController@store');
+			Route::delete('{id}/members/{memberId}', 'ProjectMemberController@destroy');
+
+			Route::post('{id}/file', 'ProjectFileController@store');
+			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
+		});
 	});
 });
+
