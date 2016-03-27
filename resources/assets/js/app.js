@@ -1,23 +1,24 @@
-var app = angular.module('app', ['ngRoute', 'angular-oauth2', 'app.controllers', 'app.services']);
+var app = angular.module('app', ['ngRoute', 'angular-oauth2', 'app.controllers', 'app.filters', 'app.services']);
 
 angular.module('app.controllers', ['ngMessages']);
+angular.module('app.filters', []);
 angular.module('app.services', ['ngResource']);
 
-app.provider('appConfig', function() {
+app.provider('appConfig', function () {
     var config = {
         baseUrl: 'http://laravel.angular'
     };
 
     return {
         config: config,
-        $get: function() {
+        $get: function () {
             return config;
         }
     }
 });
 
 app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider', function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
-    $httpProvider.defaults.transformResponse = function(data, headers) {
+    $httpProvider.defaults.transformResponse = function (data, headers) {
         var headersGetter = headers();
 
         if (headersGetter['content-type'] == 'application/json') {
@@ -120,7 +121,7 @@ app.run(['$rootScope', '$window', '$cookieStore', '$http', 'OAuth', function ($r
             headers: {
                 'Authorization': 'Bearer ' + token
             }
-        }).then(function(response) {
+        }).then(function (response) {
             console.log(response.data);
         });
     }
