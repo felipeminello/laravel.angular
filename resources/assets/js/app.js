@@ -6,7 +6,14 @@ angular.module('app.services', ['ngResource']);
 
 app.provider('appConfig', function () {
     var config = {
-        baseUrl: 'http://laravel.angular'
+        baseUrl: 'http://laravel.angular',
+        project: {
+            status: [
+                { value: 1, label: 'Não iniciado' },
+                { value: 2, label: 'Iniciado' },
+                { value: 3, label: 'Concluído' }
+            ]
+        }
     };
 
     return {
