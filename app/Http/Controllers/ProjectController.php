@@ -36,12 +36,10 @@ class ProjectController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$userId = Authorizer::getResourceOwnerId();
-
 		$data = $request->all();
-		$data['owner_id'] = $userId;
+//		$data['owner_id'] = Authorizer::getResourceOwnerId();
 
-		return $this->service->create($request->all());
+		return $this->service->create($data);
 	}
 
 	/**
