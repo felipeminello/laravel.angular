@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
-use Prettus\Repository\Exceptions\RepositoryException;
 
 class ProjectNoteController extends Controller
 {
@@ -61,6 +60,8 @@ class ProjectNoteController extends Controller
 	public function store(Request $request)
 	{
 		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+
+		var_dump($request->all());
 
 		if ($this->checkProjectPermissions($projectId) == false) {
 			return ['error' => 'Access forbidden'];

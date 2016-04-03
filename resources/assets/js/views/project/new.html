@@ -51,9 +51,11 @@
                         <div class="form-group col-md-4" ng-class="{'has-error': !form.progress.$valid && form.progress.$touched}">
                             <label>Progress</label>
 
-                            <input type="text" class="form-control" name="progress" ng-model="project.progress" required>
+                            <input type="number" max="100" min="0" class="form-control" name="progress" ng-model="project.progress" required>
                             <div ng-messages="form.progress.$error" class="help-block" ng-show="form.progress.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
+                                <div ng-message="min">Valor minimo aceitável: 0</div>
+                                <div ng-message="max">Valor máximo aceitável: 100</div>
                             </div>
                         </div>
 
