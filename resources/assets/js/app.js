@@ -9,9 +9,9 @@ app.provider('appConfig', function () {
         baseUrl: 'http://laravel.angular',
         project: {
             status: [
-                { value: 1, label: 'Não iniciado' },
-                { value: 2, label: 'Iniciado' },
-                { value: 3, label: 'Concluído' }
+                { value: '1', label: 'Não iniciado' },
+                { value: '2', label: 'Iniciado' },
+                { value: '3', label: 'Concluído' }
             ]
         },
         utils: {

@@ -14,6 +14,22 @@ angular.module('app.services')
                 }
             },
 
+            get: {
+                method: 'GET',
+                transformResponse: function (data, headers) {
+                    console.log(data);
+                    var o = appConfig.utils.transformResponse(data, headers);
+
+                    if (angular.isObject(o) && o.hasOwnProperty('due_date')) {
+                        var arrayDate = o.due_date.split('-');
+
+                        o.due_date = new Date(arrayDate[0], arrayDate[1], arrayDate[2]);
+                    }
+
+                    return o;
+                }
+            },
+
             update: {
                 method: 'PUT'
             }
