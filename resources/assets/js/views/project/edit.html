@@ -2,68 +2,76 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edição de cliente</div>
+                <div class="panel-heading">Edição de projeto</div>
                 <div class="panel-body">
                     <form class="form" name="form" role="form" ng-submit="save()">
 
                         <div class="form-group col-md-6" ng-class="{'has-error': !form.name.$valid && form.name.$touched}">
                             <label>Name</label>
 
-                            <input type="text" class="form-control" name="name" ng-model="client.name">
+                            <input type="text" class="form-control" name="name" ng-model="project.name" required>
                             <div ng-messages="form.name.$error" class="help-block" ng-show="form.name.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6" ng-class="{'has-error': !form.email.$valid && form.email.$touched}">
-                            <label>Email</label>
+                        <div class="form-group col-md-6" ng-class="{'has-error': !form.client_id.$valid && form.client_id.$touched}">
+                            <label>Clients</label>
 
-                            <input type="email" class="form-control" name="email" ng-model="client.email">
-                            <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched">
-                                <div ng-message="required">Campo obrigatório</div>
-                                <div ng-message="email">Email inválido</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6" ng-class="{'has-error': !form.responsable.$valid && form.responsable.$touched}">
-                            <label>Responsable</label>
-
-                            <input type="text" class="form-control" name="responsable" ng-model="client.responsable">
-                            <div ng-messages="form.responsable.$error" class="help-block" ng-show="form.responsable.$touched">
+                            <select class="form-control" name="client_id" ng-model="project.client_id"
+                                    ng-options="o.id as o.name for o in clients" required>
+                                <option value=""><-- Selecione o client --></option>
+                            </select>
+                            <div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6" ng-class="{'has-error': !form.phone.$valid && form.phone.$touched}">
-                            <label>Phone</label>
+                        <div class="form-group col-md-12" ng-class="{'has-error': !form.description.$valid && form.description.$touched}">
+                            <label>Description</label>
 
-                            <input type="text" class="form-control" name="phone" ng-model="client.phone">
-                            <div ng-messages="form.phone.$error" class="help-block" ng-show="form.phone.$touched">
+                            <textarea class="form-control" name="description" ng-model="project.description" required></textarea>
+                            <div ng-messages="form.description.$error" class="help-block" ng-show="form.description.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
                         </div>
 
-                        <div class="form-group col-lg-6" ng-class="{'has-error': !form.address.$valid && form.address.$touched}">
-                            <label>Address</label>
+                        <div class="form-group col-md-4" ng-class="{'has-error': !form.status.$valid && form.status.$touched}">
+                            <label>Status</label>
 
-                            <textarea class="form-control" name="address" ng-model="client.address"></textarea>
-                            <div ng-messages="form.address.$error" class="help-block" ng-show="form.address.$touched">
+                            <select class="form-control" name="status" ng-model="project.status"
+                                    ng-options="o.value as o.label for o in status" required>
+                                <option value=""><-- Selecione o status --></option>
+                            </select>
+                            <div ng-messages="form.status.$error" class="help-block" ng-show="form.status.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
                         </div>
 
-                        <div class="form-group col-lg-6" ng-class="{'has-error': !form.obs.$valid && form.obs.$touched}">
-                            <label>Observation</label>
+                        <div class="form-group col-md-4" ng-class="{'has-error': !form.progress.$valid && form.progress.$touched}">
+                            <label>Progress</label>
 
-                            <textarea class="form-control" name="obs" ng-model="client.obs"></textarea>
-                            <div ng-messages="form.obs.$error" class="help-block" ng-show="form.obs.$touched">
+                            <input type="text" max="100" min="0" class="form-control" name="progress" ng-model="project.progress" required>
+                            <div ng-messages="form.progress.$error" class="help-block" ng-show="form.progress.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                                <div ng-message="min">Valor minimo aceitável: 0</div>
+                                <div ng-message="max">Valor máximo aceitável: 100</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-lg-4" ng-class="{'has-error': !form.due_date.$valid && form.due_date.$touched}">
+                            <label>Due Date</label>
+
+                            <input type="date" class="form-control" name="due_date" ng-model="project.due_date" required>
+                            <div ng-messages="form.due_date.$error" class="help-block" ng-show="form.due_date.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
                         </div>
 
                         <div class="form-group col-lg-12">
 
-                                <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+                            <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
 
                         </div>
                     </form>
