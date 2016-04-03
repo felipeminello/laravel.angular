@@ -60,9 +60,7 @@ class ProjectNoteController extends Controller
 	public function store(Request $request)
 	{
 		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
-
-		var_dump($request->all());
-
+		
 		if ($this->checkProjectPermissions($projectId) == false) {
 			return ['error' => 'Access forbidden'];
 		}
