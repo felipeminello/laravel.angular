@@ -2,13 +2,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Exclusão de cliente</div>
+                <div class="panel-heading">Exclusão de projeto</div>
                 <div class="panel-body">
-                    <p>Confirma exclusão do cliente?</p>
+                    <p>Confirma exclusão do projeto?</p>
                     <ul>
-                        <li><strong>Name:</strong> {{ client.name }}</li>
-                        <li><strong>Email:</strong> {{ client.email }}</li>
-                        <li><strong>Phone:</strong> {{ client.phone }}</li>
+                        <li><strong>Name:</strong> {{ project.name }}</li>
+                        <li><strong>Client:</strong> {{ project.client.name }}</li>
                     </ul>
                     <div class="form-group col-lg-12">
                         <button type="button" class="btn btn-lg btn-danger btn-primary" ng-click="remove()">Excluir</button>
