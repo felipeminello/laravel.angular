@@ -46,7 +46,11 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 	});
 
 	Route::group(['middleware' => 'oauth'], function () {
-		Route::get('user', 'UserController@show');
+		Route::group(['prefix' => 'user'], function() {
+			Route::get('/', 'UserController@show');
+			Route::get('authenticated', 'UserController@show');
+		});
+
 		Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
 		Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
@@ -71,10 +75,5 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::post('{id}/file', 'ProjectFileController@store');
 			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 		});
-
-		Route::group(['prefix' => 'user'], function() {
-			Route::get('authenticated', 'UserController@show');
-		});
 	});
 });
-
