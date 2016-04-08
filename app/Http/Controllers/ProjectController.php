@@ -25,7 +25,7 @@ class ProjectController extends Controller
 	{
 		$userId = Authorizer::getResourceOwnerId();
 
-		return $this->repository->skipPresenter()->with(['client', 'owner'])->findWhere(['owner_id' => $userId]);
+		return $this->service->listMemberOwner($userId);
 	}
 
 	/**
@@ -36,7 +36,10 @@ class ProjectController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		return $this->service->create($request->all());
+		$data = $request->all();
+//		$data['owner_id'] = Authorizer::getResourceOwnerId();
+
+		return $this->service->create($data);
 	}
 
 	/**
@@ -51,7 +54,7 @@ class ProjectController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->find($id);
+		return $this->repository->with('client')->find($id);
 	}
 
 	/**

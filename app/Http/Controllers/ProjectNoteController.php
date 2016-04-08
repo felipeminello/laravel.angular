@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
-use Prettus\Repository\Exceptions\RepositoryException;
 
 class ProjectNoteController extends Controller
 {
@@ -49,7 +48,7 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->skipPresenter()->with('project')->findWhere(['project_id' => $id]);
+		return $this->repository->with('project')->findWhere(['project_id' => $id]);
 	}
 
 	/**
@@ -61,7 +60,7 @@ class ProjectNoteController extends Controller
 	public function store(Request $request)
 	{
 		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
-
+		
 		if ($this->checkProjectPermissions($projectId) == false) {
 			return ['error' => 'Access forbidden'];
 		}
@@ -81,7 +80,15 @@ class ProjectNoteController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId])->first();
+		$result = $this->repository->with('project')->findWhere(['project_id' => $id, 'id' => $noteId]);
+
+		if (isset($result['data']) && count($result['data']) == 1) {
+			$result = [
+				'data' => $result['data'][0]
+			];
+		}
+
+		return $result;
 	}
 
 	/**
@@ -115,12 +122,13 @@ class ProjectNoteController extends Controller
 
 		try
 		{
-			$projectNote = $this->repository->find($noteId);
-			
+			$projectNote = $this->repository->skipPresenter()->find($noteId);
+
 			if (empty($projectNote))
 			{
 				return ['error' => 'ProjectNote not found'];
 			}
+
 			$projectNote->delete();
 		} catch (\Exception $e) {
 			return ['error' => $e->getMessage()];

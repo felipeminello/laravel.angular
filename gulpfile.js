@@ -47,7 +47,7 @@ gulp.task('copy-html', function () {
 
 gulp.task('copy-font', function () {
     gulp.src([
-            config.assets_path + '/font/**/*'
+            config.assets_path + '/fonts/**/*'
         ])
         .pipe(gulp.dest(config.build_path_font))
         .pipe(liveReload());
@@ -101,7 +101,7 @@ gulp.task('default', ['clear-build-folder'], function() {
 
 gulp.task('watch-dev', ['clear-build-folder'], function() {
     liveReload.listen();
-    gulp.start('copy-styles', 'copy-scripts', 'copy-html');
+    gulp.start('copy-styles', 'copy-scripts', 'copy-html', 'copy-font', 'copy-image');
 
     gulp.watch(config.assets_path + '/**', ['copy-styles', 'copy-scripts', 'copy-html', 'copy-font', 'copy-image']);
 });

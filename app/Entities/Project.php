@@ -32,6 +32,16 @@ class Project extends Model implements Transformable
 		return $this->belongsToMany(User::class, 'project_members', 'project_id', 'member_id');
 	}
 
+	public function projectMembers()
+	{
+		return $this->hasMany(ProjectMember::class);
+	}
+
+	public function tasks()
+	{
+		return $this->hasMany(ProjectTask::class);
+	}
+
 	public function files()
 	{
 		return $this->hasMany(ProjectFile::class);
