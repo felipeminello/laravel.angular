@@ -14,8 +14,6 @@ angular.module('app.controllers')
 
                 $scope.status = appConfig.project.status;
 
-
-
                 $scope.save = function () {
                     if ($scope.form.$valid) {
                         $scope.project.owner_id = $cookies.getObject('user').id;
