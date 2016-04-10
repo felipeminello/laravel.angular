@@ -15,6 +15,13 @@ angular.module('app.controllers')
             $scope.due_date.status.opened = true;
         };
 
+        $scope.dateOptions = {
+            maxDate: new Date(2020, 5, 22),
+            minDate: new Date(),
+            startingDay: 0
+        };
+
+
         $scope.save = function () {
             if ($scope.form.$valid) {
                 $scope.project.owner_id = $cookies.getObject('user').id;

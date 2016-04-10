@@ -68,8 +68,9 @@
                             <p class="input-group">
                                 <input type="text" name="due_date" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="project.due_date"
                                        is-open="due_date.status.opened"
-                                       ng-required="true" close-text="Close"
-                                       required/>
+                                       datepicker-options="dateOptions"
+                                       close-text="Close"
+                                       ng-required="true" />
                                   <span class="input-group-btn">
                                       <button type="button" class="btn btn-default" ng-click="open()">
                                           <i class="glyphicon glyphicon-calendar"></i>
@@ -77,7 +78,6 @@
                                   </span>
                             </p>
 
-                            <!--<input type="date" class="form-control" name="due_date" ng-model="project.due_date" required>-->
                             <div ng-messages="form.due_date.$error" class="help-block" ng-show="form.due_date.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
