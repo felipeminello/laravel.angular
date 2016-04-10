@@ -34,7 +34,7 @@ config.vendor_path_css = [
 ];
 
 config.build_path_html = config.build_path + '/views';
-config.build_path_font = config.build_path + '/font';
+config.build_path_font = config.build_path + '/fonts';
 config.build_path_image = config.build_path + '/images';
 
 gulp.task('copy-html', function () {
