@@ -62,6 +62,13 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
 			Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
+			Route::get('{id}/file', 'ProjectNoteController@index');
+			Route::get('{id}/file/{fileId}', 'ProjectNoteController@show');
+			Route::get('{id}/file/{fileId}/download', 'ProjectNoteController@download');
+			Route::post('{id}/file', 'ProjectFileController@store');
+			Route::put('{id}/file/{fileId}', 'ProjectNoteController@update');
+			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
+
 			Route::get('{id}/task', 'ProjectTaskController@index');
 			Route::post('{id}/task', 'ProjectTaskController@store');
 			Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
@@ -71,9 +78,6 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::get('{id}/members', 'ProjectMemberController@index');
 			Route::post('{id}/members', 'ProjectMemberController@store');
 			Route::delete('{id}/members/{memberId}', 'ProjectMemberController@destroy');
-
-			Route::post('{id}/file', 'ProjectFileController@store');
-			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 		});
 	});
 });
