@@ -2,13 +2,11 @@
 
 namespace CodeProject\Services;
 
+use Authorizer;
 use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Validators\ProjectFileValidator;
 use CodeProject\Validators\ProjectMemberValidator;
 use CodeProject\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Contracts\Filesystem\Factory as Storage;
 
 class ProjectService
 {
@@ -21,21 +19,9 @@ class ProjectService
 	 */
 	protected $validator;
 	/**
-	 * @var Filesystem
-	 */
-	private $filesystem;
-	/**
-	 * @var Storage
-	 */
-	private $storage;
-	/**
 	 * @var ProjectMemberValidator
 	 */
 	private $memberValidator;
-	/**
-	 * @var ProjectFileValidator
-	 */
-	private $fileValidator;
 
 	/**
 	 * ProjectService constructor.
@@ -43,18 +29,12 @@ class ProjectService
 	 * @param ProjectRepository      $repository
 	 * @param ProjectValidator       $validator
 	 * @param ProjectMemberValidator $memberValidator
-	 * @param ProjectFileValidator   $fileValidator
-	 * @param Filesystem             $filesystem
-	 * @param Storage                $storage
 	 */
-	public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectMemberValidator $memberValidator, ProjectFileValidator $fileValidator, Filesystem $filesystem, Storage $storage)
+	public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectMemberValidator $memberValidator)
 	{
 		$this->repository = $repository;
 		$this->validator = $validator;
-		$this->filesystem = $filesystem;
-		$this->storage = $storage;
 		$this->memberValidator = $memberValidator;
-		$this->fileValidator = $fileValidator;
 	}
 
 	/**
@@ -160,27 +140,41 @@ class ProjectService
 	}
 
 	/**
-	 * @param array $data
+	 * @param $projectId
 	 *
-	 * @return array
+	 * @return mixed
 	 */
-	public function createFile(array $data)
+	public function checkProjectOwner($projectId)
 	{
-		try {
-			$this->fileValidator->with($data)->passesOrFail();
+		$userId = Authorizer::getResourceOwnerId();
 
-			$project = $this->repository->skipPresenter()->find($data['project_id']);
-
-			$data['extension'] = $data['file']->getClientOriginalExtension();
-
-			$projectFile = $project->files()->create($data);
-
-			$this->storage->put($projectFile->id.'.'.$data['extension'], $this->filesystem->get($data['file']));
-		} catch (ValidatorException $e) {
-			return [
-				'error'   => true,
-				'message' => $e->getMessageBag()
-			];
-		}
+		return $this->repository->isOwner($projectId, $userId);
 	}
+
+	/**
+	 * @param $projectId
+	 *
+	 * @return mixed
+	 */
+	public function checkProjectMember($projectId)
+	{
+		$userId = Authorizer::getResourceOwnerId();
+
+		return $this->repository->hasMember($projectId, $userId);
+	}
+
+	/**
+	 * @param $projectId
+	 *
+	 * @return bool
+	 */
+	public function checkProjectPermissions($projectId)
+	{
+		if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId))
+			return true;
+		else
+			return false;
+
+	}
+
 }
