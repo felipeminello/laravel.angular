@@ -70,7 +70,7 @@ class ProjectFileController extends Controller
 			'file'        => $file,
 			'extension'   => $extension,
 			'name'        => $request->name,
-			'project_id'  => $request->project_id,
+			'project_id'  => $id,
 			'description' => $request->description,
 		];
 

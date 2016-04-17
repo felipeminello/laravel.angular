@@ -62,11 +62,11 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
 			Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
-			Route::get('{id}/file', 'ProjectNoteController@index');
-			Route::get('{id}/file/{fileId}', 'ProjectNoteController@show');
-			Route::get('{id}/file/{fileId}/download', 'ProjectNoteController@download');
+			Route::get('{id}/file', 'ProjectFileController@index');
+			Route::get('{id}/file/{fileId}', 'ProjectFileController@show');
+			Route::get('{id}/file/{fileId}/download', 'ProjectFileController@download');
 			Route::post('{id}/file', 'ProjectFileController@store');
-			Route::put('{id}/file/{fileId}', 'ProjectNoteController@update');
+			Route::put('{id}/file/{fileId}', 'ProjectFileController@update');
 			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 
 			Route::get('{id}/task', 'ProjectTaskController@index');

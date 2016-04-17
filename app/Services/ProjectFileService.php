@@ -107,7 +107,7 @@ class ProjectFileService
 			case 'local' :
 				return $this->storage->getDriver()
 									 ->getAdapter()
-									 ->getPathPrefix() . '/' . $projectFile->id . '.' . $projectFile->extension;
+									 ->getPathPrefix() . $projectFile->id . '.' . $projectFile->extension;
 		}
 	}
 
