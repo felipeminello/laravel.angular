@@ -103,6 +103,12 @@
     <script src="{{ asset('build/js/controllers/project-note/projectNoteRemove.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-note/projectNoteShow.js') }}"></script>
 
+    <script src="{{ asset('build/js/controllers/project-file/projectFileList.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-file/projectFileNew.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-file/projectFileEdit.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-file/projectFileRemove.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-file/projectFileShow.js') }}"></script>
+
     {{-- FILTERS --}}
     <script src="{{ asset('build/js/filters/date-br.js') }}"></script>
 
@@ -111,6 +117,7 @@
     <script src="{{ asset('build/js/services/user.js') }}"></script>
     <script src="{{ asset('build/js/services/project.js') }}"></script>
     <script src="{{ asset('build/js/services/projectNote.js') }}"></script>
+    <script src="{{ asset('build/js/services/projectFile.js') }}"></script>
 @else
     <script src="{{ elixir('js/all.js') }}"></script>
 @endif
