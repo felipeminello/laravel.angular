@@ -40,12 +40,13 @@
                             <label style="display: block;">File</label>
 
                             <div class="btn btn-primary" ngf-select ng-model="projectFile.file" name="file" ngf-pattern="'image/*'"
-                                 ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+                                 ngf-accept="'image/*'" ngf-max-size="10MB" ngf-min-height="100"
                                  ngf-resize="{width: 100, height: 100}">Select</div>
 
 
                             <div ng-messages="form.file.$error" class="help-block" ng-show="form.file.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
+                                <div ng-message="ngf-max-size">Tamanho máximo: 10mb</div>
                             </div>
                         </div>
 
