@@ -12,6 +12,8 @@ use CodeProject\Entities\ProjectFile;
  */
 class ProjectFileTransformer extends TransformerAbstract
 {
+	protected $defaultIncludes = ['project'];
+	
 	/**
 	 * Transform the ProjectFile entity
 	 *
@@ -27,5 +29,10 @@ class ProjectFileTransformer extends TransformerAbstract
 			'extension' => $projectFile->extension,
 			'description' => $projectFile->description,
 		];
+	}
+
+	public function includeProject(ProjectFile $projectFile)
+	{
+		return $this->collection($projectFile->project()->get(), new ProjectTransformer());
 	}
 }

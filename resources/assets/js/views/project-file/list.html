@@ -2,28 +2,30 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Listagem de notas de projetos</div>
+                <div class="panel-heading">Listagem de arquivos de projetos</div>
                 <div class="panel-body">
                     <table class="table">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Title</th>
+                            <th>Name</th>
+                            <th>Description</th>
                             <th>Project</th>
-                            <th>Note</th>
+                            <th>Link</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="pn in projectNotes">
-                            <td>{{ pn.id }}</td>
-                            <td>{{ pn.title }}</td>
-                            <td>{{ pn.project.data[0].project }}</td>
-                            <td>{{ pn.note | limitTo: 25 }}...</td>
+                        <tr ng-repeat="pf in projectFiles">
+                            <td>{{ pf.id }}</td>
+                            <td>{{ pf.name }}</td>
+                            <td>{{ pf.description | limitTo: 25 }}</td>
+                            <td>{{ pf.project.data[0].project }}</td>
+                            <td><a ng-href="/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/download" target="_blank">Download</a></td>
                             <td>
-                                <a ng-href="#/project/{{ pn.project_id }}/notes/{{ pn.id }}/show">Show</a>
-                                <a ng-href="#/project/{{ pn.project_id }}/notes/{{ pn.id }}/edit">Edit</a>
-                                <a ng-href="#/project/{{ pn.project_id }}/notes/{{ pn.id }}/remove">Delete</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/show">Show</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/edit">Edit</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/remove">Delete</a>
                             </td>
                         </tr>
                         </tbody>
