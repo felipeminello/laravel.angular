@@ -109,6 +109,9 @@
     <script src="{{ asset('build/js/controllers/project-file/projectFileRemove.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-file/projectFileShow.js') }}"></script>
 
+    {{-- DIRECTIVES --}}
+    <script src="{{ asset('build/js/directives/projectFileDownload.js') }}"></script>
+
     {{-- FILTERS --}}
     <script src="{{ asset('build/js/filters/date-br.js') }}"></script>
 
@@ -120,8 +123,6 @@
     <script src="{{ asset('build/js/services/project.js') }}"></script>
     <script src="{{ asset('build/js/services/projectNote.js') }}"></script>
     <script src="{{ asset('build/js/services/projectFile.js') }}"></script>
-
-
 @else
     <script src="{{ elixir('js/all.js') }}"></script>
 @endif
