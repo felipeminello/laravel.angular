@@ -46,7 +46,11 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 	});
 
 	Route::group(['middleware' => 'oauth'], function () {
-		Route::get('user', 'UserController@show');
+		Route::group(['prefix' => 'user'], function() {
+			Route::get('/', 'UserController@show');
+			Route::get('authenticated', 'UserController@show');
+		});
+
 		Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
 		Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
@@ -58,6 +62,13 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
 			Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
+			Route::get('{id}/file', 'ProjectFileController@index');
+			Route::get('{id}/file/{fileId}', 'ProjectFileController@show');
+			Route::get('{id}/file/{fileId}/download', 'ProjectFileController@download');
+			Route::post('{id}/file', 'ProjectFileController@store');
+			Route::put('{id}/file/{fileId}', 'ProjectFileController@update');
+			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
+
 			Route::get('{id}/task', 'ProjectTaskController@index');
 			Route::post('{id}/task', 'ProjectTaskController@store');
 			Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
@@ -67,14 +78,6 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::get('{id}/members', 'ProjectMemberController@index');
 			Route::post('{id}/members', 'ProjectMemberController@store');
 			Route::delete('{id}/members/{memberId}', 'ProjectMemberController@destroy');
-
-			Route::post('{id}/file', 'ProjectFileController@store');
-			Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
-		});
-
-		Route::group(['prefix' => 'user'], function() {
-			Route::get('authenticated', 'UserController@show');
 		});
 	});
 });
-

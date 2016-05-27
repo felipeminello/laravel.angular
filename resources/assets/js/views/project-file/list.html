@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Listagem de arquivos de projetos</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Project</th>
+                            <th>Link</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="pf in projectFiles">
+                            <td>{{ pf.id }}</td>
+                            <td>{{ pf.name }}</td>
+                            <td>{{ pf.description | limitTo: 25 }}</td>
+                            <td>{{ pf.project.data[0].project }}</td>
+                            <td>
+                                <!--<a ng-href="/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/download" target="_blank">Download</a>-->
+                                <project-file-download id-file="{{ pf.id }}" id-project="{{ pf.project.data[0].project_id }}"></project-file-download>
+                            </td>
+                            <td>
+                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/show">Show</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/edit">Edit</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/remove">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

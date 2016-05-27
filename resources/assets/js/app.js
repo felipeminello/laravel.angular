@@ -1,7 +1,12 @@
-var app = angular.module('app', ['ngRoute', 'angular-oauth2', 'app.controllers', 'app.filters', 'app.services']);
+var app = angular.module('app',
+    [
+        'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives', 'ui.bootstrap.typeahead',
+        'ui.bootstrap.datepickerPopup', 'ui.bootstrap.tpls', 'ngFileUpload'
+    ]);
 
 angular.module('app.controllers', ['ngMessages']);
 angular.module('app.filters', []);
+angular.module('app.directives', []);
 angular.module('app.services', ['ngResource']);
 
 app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamSerializerProvider) {
@@ -13,6 +18,9 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
                 { value: '2', label: 'Iniciado' },
                 { value: '3', label: 'Concluído' }
             ]
+        },
+        urls: {
+            projectFile: '/project/{{id}}/file/{{idFile}}'
         },
         utils: {
             transformRequest: function(data) {
@@ -116,6 +124,26 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
         .when('/project/:id/notes/:idNote/show', {
             templateUrl: 'build/views/project-note/show.html',
             controller: 'ProjectNoteShowController'
+        })
+        .when('/project/:id/file', {
+            templateUrl: 'build/views/project-file/list.html',
+            controller: 'ProjectFileListController'
+        })
+        .when('/project/:id/file/new', {
+            templateUrl: 'build/views/project-file/new.html',
+            controller: 'ProjectFileNewController'
+        })
+        .when('/project/:id/file/:idFile/edit', {
+            templateUrl: 'build/views/project-file/edit.html',
+            controller: 'ProjectFileEditController'
+        })
+        .when('/project/:id/file/:idFile/remove', {
+            templateUrl: 'build/views/project-file/remove.html',
+            controller: 'ProjectFileRemoveController'
+        })
+        .when('/project/:id/file/:idFile/show', {
+            templateUrl: 'build/views/project-file/show.html',
+            controller: 'ProjectFileShowController'
         });
 
     OAuthProvider.configure({
