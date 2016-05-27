@@ -52,6 +52,10 @@ class ProjectFileController extends Controller
 
 	public function index($id)
 	{
+		if ($this->projectService->checkProjectPermissions($id) === false) {
+			return ['error' => 'Access Forbidden'];
+		}
+
 		return $this->repository->with('project')->findWhere(['project_id' => $id]);
 	}
 
@@ -101,7 +105,16 @@ class ProjectFileController extends Controller
 			return ['error' => 'Access Forbidden'];
 		}
 
-		return response()->download($this->service->getFilePath($fileId));
+		$filePath = $this->service->getFilePath($fileId);
+		$fileContent = file_get_contents($filePath);
+		$file64 = base64_encode($fileContent);
+
+		// return response()->download($this->service->getFilePath($fileId));
+		return [
+			'file' => $file64,
+			'size' => filesize($filePath),
+			'name' => $this->service->getFileName($fileId)
+		];
 	}
 
 	/**

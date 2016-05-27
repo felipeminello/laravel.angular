@@ -111,6 +111,13 @@ class ProjectFileService
 		}
 	}
 
+	public function getFileName($idFile)
+	{
+		$projectFile = $this->repository->skipPresenter()->find($idFile, ['id', 'extension']);
+		
+		return $projectFile->getFileName();
+	}
+
 	public function destroy($id, $fileId)
 	{
 		$projectFile = $this->repository->skipPresenter()->findWhere(['project_id' => $id, 'id' => $fileId])->first();

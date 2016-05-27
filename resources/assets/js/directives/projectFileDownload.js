@@ -14,8 +14,14 @@ angular.module('app.directives')
                         $(anchor).addClass('disabled').text('Loading');
 
                         ProjectFile.download({id: $attrs.idProject, idFile: $attrs.idFile}, function(data) {
-
-                        })
+                            $(anchor)
+                                .removeClass('disabled')
+                                .text('Save File')
+                                .attr({
+                                    href: 'data:application-octet-stream;base64,' + data.file,
+                                    download: data.name
+                                });
+                        });
                     };
                 }]
             };
