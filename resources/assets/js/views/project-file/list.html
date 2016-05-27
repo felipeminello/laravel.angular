@@ -21,7 +21,10 @@
                             <td>{{ pf.name }}</td>
                             <td>{{ pf.description | limitTo: 25 }}</td>
                             <td>{{ pf.project.data[0].project }}</td>
-                            <td><a ng-href="/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/download" target="_blank">Download</a></td>
+                            <td>
+                                <!--<a ng-href="/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/download" target="_blank">Download</a>-->
+                                <project-file-download></project-file-download>
+                            </td>
                             <td>
                                 <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/show">Show</a>
                                 <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/edit">Edit</a>
