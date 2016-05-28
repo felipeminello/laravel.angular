@@ -140,10 +140,6 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
         .when('/project/:id/file/:idFile/remove', {
             templateUrl: 'build/views/project-file/remove.html',
             controller: 'ProjectFileRemoveController'
-        })
-        .when('/project/:id/file/:idFile/show', {
-            templateUrl: 'build/views/project-file/show.html',
-            controller: 'ProjectFileShowController'
         });
 
     OAuthProvider.configure({
@@ -188,6 +184,6 @@ app.run(['$rootScope', '$window', '$cookieStore', '$http', 'OAuth', function ($r
         }
 
         // Redirect to `/login` with the `error_reason`.
-        return $window.location.href = '/auth/login?error_reason=' + rejection.data.error;
+        return $window.location.href = '/#/login?error_reason=' + rejection.data.error;
     });
 }]);
