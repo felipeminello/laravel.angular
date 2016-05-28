@@ -9,6 +9,7 @@ use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Prettus\Validator\Exceptions\ValidatorException;
+use Prettus\Validator\Contracts\ValidatorInterface;
 
 class ProjectFileService
 {
@@ -64,7 +65,7 @@ class ProjectFileService
 	public function create(array $data)
 	{
 		try {
-			$this->validator->with($data)->passesOrFail();
+			$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
 			$project = $this->projectRepository->skipPresenter()->find($data['project_id']);
 			$projectFile = $project->files()->create($data);
@@ -83,7 +84,7 @@ class ProjectFileService
 	public function update(array $data, $id)
 	{
 		try {
-			$this->validator->with($data)->passesOrFail();
+			$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
 			return $this->repository->update($data, $id);
 		} catch (ValidatorException $e) {
