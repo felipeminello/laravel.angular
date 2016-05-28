@@ -43,6 +43,7 @@
                                  ngf-accept="'image/*'" ngf-max-size="10MB" ngf-min-height="100"
                                  ngf-resize="{width: 100, height: 100}">Select</div>
 
+                            {{ projectFile.file.name }}
 
                             <div ng-messages="form.file.$error" class="help-block" ng-show="form.file.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
