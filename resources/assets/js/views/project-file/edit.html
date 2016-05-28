@@ -9,7 +9,7 @@
                         <div class="form-group col-md-6" ng-class="{'has-error': !form.project_id.$valid && form.project_id.$touched}">
                             <label>Projeto</label>
 
-                            <input type="text" class="form-control" readonly="readonly" name="project_id" ng-model="project.project">
+                            <input type="text" class="form-control" readonly="readonly" name="project_id" ng-model="project.name">
                             <div ng-messages="form.project_id.$error" class="help-block" ng-show="form.project_id.$touched">
                                 <div ng-message="required">Campo obrigatório</div>
                             </div>
@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="form-group col-lg-12">
-                            <project-file-download id-file="{{ projectFile.id }}" id-project="{{ project.project_id }}"></project-file-download>
+                            <project-file-download id-file="{{ projectFile.id }}" id-project="{{ project.id }}"></project-file-download>
                         </div>
 
                         <div class="form-group col-lg-12">

@@ -18,7 +18,7 @@
                         <tr ng-repeat="pn in projectNotes">
                             <td>{{ pn.id }}</td>
                             <td>{{ pn.title }}</td>
-                            <td>{{ pn.project.data[0].project }}</td>
+                            <td>{{ pn.project.data[0].name }}</td>
                             <td>{{ pn.note | limitTo: 25 }}...</td>
                             <td>
                                 <a ng-href="#/project/{{ pn.project_id }}/notes/{{ pn.id }}/show">Show</a>

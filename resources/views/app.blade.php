@@ -36,30 +36,36 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Laravel</a>
+            <a class="navbar-brand" href="{{ url() }}">Laravel</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/') }}">Welcome</a></li>
+                <li><a ng-href="#/home">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                @if(auth()->guest())
-                    @if(!Request::is('auth/login'))
-                        <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Nome
-                                <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-                            </ul>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Projects <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ng-href="#/projects">List</a>
                         </li>
-                    @endif
-                    @if(!Request::is('auth/register'))
-                        <li><a href="{{ url('/auth/register') }}">Register</a></li>
-                    @endif
-                @else
-                    <li><a href="{{ url('/#/login') }}">Login</a></li>
-                @endif
+                        <li>
+                            <a ng-href="#/projects/new">New</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Clients <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ng-href="#/clients">List</a>
+                        </li>
+                        <li>
+                            <a ng-href="#/clients/new">New</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -69,6 +75,7 @@
 
 @if(Config::get('app.debug'))
     <script src="{{ asset('build/js/vendor/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/js/vendor/bootstrap.min.js') }}"></script>
     <script src="{{ asset('build/js/vendor/angular.min.js') }}"></script>
     <script src="{{ asset('build/js/vendor/angular-route.min.js') }}"></script>
     <script src="{{ asset('build/js/vendor/angular-resource.min.js') }}"></script>

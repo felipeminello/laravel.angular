@@ -12,19 +12,23 @@
                             <th>Client</th>
                             <th>Progress</th>
                             <th>Due data</th>
+                            <th>Files</th>
+                            <th>Notes</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="project in projects">
-                            <td>{{ project.project_id }}</td>
-                            <td>{{ project.project }}</td>
+                            <td>{{ project.id }}</td>
+                            <td>{{ project.name }}</td>
                             <td>{{ project.client.data[0].name }}</td>
                             <td>{{ project.progress }}%</td>
                             <td>{{ project.due_date | dateBr }}</td>
+                            <td><a ng-href="#/project/{{ project.id }}/file">View</a></td>
+                            <td><a ng-href="#/project/{{ project.id }}/notes">View</a></td>
                             <td>
-                                <a ng-href="#/projects/{{ project.project_id }}/edit">Edit</a>
-                                <a ng-href="#/projects/{{ project.project_id }}/remove">Delete</a>
+                                <a ng-href="#/projects/{{ project.id }}/edit">Edit</a>
+                                <a ng-href="#/projects/{{ project.id }}/remove">Delete</a>
                             </td>
                         </tr>
                         </tbody>

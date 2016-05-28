@@ -5,10 +5,10 @@ angular.module('app.controllers')
 
                 Project.get({id: $routeParams.id}, function (data) {
                     $scope.project = data;
-                    $scope.clientSelected = data.client;
+                    $scope.clientSelected = data.client.data[0];
                     $scope.project.progress = parseInt($scope.project.progress);
 
-                    Client.get({id: data.client_id}, function (data) {
+                    Client.get({id: data.client.data[0].id}, function (data) {
                         $scope.clientSelected = data;
                     });
                 });
