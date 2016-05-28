@@ -140,10 +140,6 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
         .when('/project/:id/file/:idFile/remove', {
             templateUrl: 'build/views/project-file/remove.html',
             controller: 'ProjectFileRemoveController'
-        })
-        .when('/project/:id/file/:idFile/show', {
-            templateUrl: 'build/views/project-file/show.html',
-            controller: 'ProjectFileShowController'
         });
 
     OAuthProvider.configure({

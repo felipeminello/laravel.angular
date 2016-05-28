@@ -2,13 +2,14 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Exclusão de nota do projeto</div>
+                <div class="panel-heading">Exclusão de arquivo do projeto</div>
                 <div class="panel-body">
-                    <p>Confirma exclusão da nota do projeto?</p>
+                    <p>Confirma exclusão este arquivo do projeto?</p>
                     <ul>
-                        <li><strong>Project:</strong> {{ projectNote.project.data[0].project }}</li>
-                        <li><strong>Title:</strong> {{ projectNote.title }}</li>
-                        <li><strong>Note:</strong> {{ projectNote.note }}</li>
+                        <li><strong>Project:</strong> {{ project.project }}</li>
+                        <li><strong>Name:</strong> {{ projectFile.name }}</li>
+                        <li><strong>Description:</strong> {{ projectFile.description }}</li>
+                        <li><strong>File:</strong> <project-file-download id-file="{{ projectFile.id }}" id-project="{{ project.project_id }}"></project-file-download></li>
 
                     </ul>
                     <div class="form-group col-lg-12">
