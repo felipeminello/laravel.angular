@@ -35,6 +35,9 @@ angular.module('app.controllers')
                 $scope.save = function () {
                     if ($scope.form.$valid) {
                         $scope.project.owner_id = $cookies.getObject('user').id;
+                        $scope.project.client_id = $scope.clientSelected.id;
+
+                        console.log('vvv:' , $scope.clientSelected);
 
                         Project.update({id: $scope.project.id}, $scope.project, function () {
                             $location.path('/projects');
