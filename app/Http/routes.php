@@ -55,7 +55,7 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 
 		Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
 
-		Route::group(['prefix' => 'project'], function () {
+		Route::group(['prefix' => 'project', 'middleware' => 'check.project.permission'], function () {
 			Route::get('{id}/note', 'ProjectNoteController@index');
 			Route::post('{id}/note', 'ProjectNoteController@store');
 			Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');

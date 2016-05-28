@@ -57,15 +57,17 @@ class ProjectNoteController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, $id)
 	{
-		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+		// $projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+		$data = $request->all();
+		$data['project_id'] = $id;
 		
-		if ($this->checkProjectPermissions($projectId) == false) {
+		if ($this->checkProjectPermissions($data['project_id']) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->service->create($request->all());
+		return $this->service->create($data);
 	}
 
 	/**
@@ -100,11 +102,14 @@ class ProjectNoteController extends Controller
 	 */
 	public function update(Request $request, $id, $noteId)
 	{
+		$data = $request->all();
+		$data['project_id'] = $id;
+
 		if ($this->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->service->update($request->all(), $noteId);
+		return $this->service->update($data, $noteId);
 	}
 
 	/**
