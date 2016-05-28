@@ -129,7 +129,7 @@ class ProjectService
 			];
 		}
 	}
-
+/*
 	public function listMemberOwner($userId)
 	{
 		return $this->repository->scopeQuery(function($query) use ($userId) {
@@ -138,7 +138,7 @@ class ProjectService
 			})->where('owner_id', '=', $userId)->orWhere('member_id', '=', $userId)->groupBy('projects.id');
 		})->all();
 	}
-
+*/
 	/**
 	 * @param $projectId
 	 *

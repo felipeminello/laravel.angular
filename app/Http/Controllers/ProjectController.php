@@ -21,14 +21,15 @@ class ProjectController extends Controller
 		$this->service = $projectService;
 
 		$this->middleware('check-project-owner', ['except' => ['store', 'show', 'index']]);
-		$this->middleware('check-project-member', ['except' => ['store', 'update', 'destroy']]);
+		$this->middleware('check-project-permission', ['except' => ['index', 'store', 'update', 'destroy']]);
 	}
 
 	public function index()
 	{
 		$userId = Authorizer::getResourceOwnerId();
 
-		return $this->service->listMemberOwner($userId);
+//		return $this->service->listMemberOwner($userId);
+		return $this->repository->findWithOwnerAndMember($userId);
 	}
 
 	/**
