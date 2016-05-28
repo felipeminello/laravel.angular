@@ -38,6 +38,8 @@ class Kernel extends HttpKernel
 
 		'check-project-owner' => \CodeProject\Http\Middleware\CheckProjectOwner::class,
 
+		'check-project-permission' => \CodeProject\Http\Middleware\CheckProjectPermission::class,
+
 		'clear-view-cache' => \CodeProject\Http\Middleware\ClearViewCache::class,
     ];
 }

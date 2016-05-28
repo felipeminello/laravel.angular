@@ -19,6 +19,9 @@ class ProjectController extends Controller
 	{
 		$this->repository = $projectRepository;
 		$this->service = $projectService;
+
+		$this->middleware('check-project-owner', ['except' => ['store', 'show', 'index']]);
+		$this->middleware('check-project-member', ['except' => ['store', 'update', 'destroy']]);
 	}
 
 	public function index()
