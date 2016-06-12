@@ -137,6 +137,6 @@ class ProjectTaskController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		$this->repository->find($taskId)->delete();
+		$this->repository->skipPresenter()->find($taskId)->delete();
 	}
 }

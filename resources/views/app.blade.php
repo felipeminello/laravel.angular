@@ -87,6 +87,8 @@
     <script src="{{ asset('build/js/vendor/query-string.js') }}"></script>
     <script src="{{ asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
     <script src="{{ asset('build/js/vendor/ng-file-upload.min.js') }}"></script>
+    <script src="{{ asset('build/js/vendor/datetime-picker.min.js') }}"></script>
+    <script src="{{ asset('build/js/vendor/datetime-picker.tpls.js') }}"></script>
 
     <script src="{{ asset('build/js/app.js') }}"></script>
 
@@ -115,8 +117,14 @@
     <script src="{{ asset('build/js/controllers/project-file/projectFileEdit.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-file/projectFileRemove.js') }}"></script>
 
+    <script src="{{ asset('build/js/controllers/project-task/projectTaskList.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-task/projectTaskNew.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-task/projectTaskEdit.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-task/projectTaskRemove.js') }}"></script>
+
     {{-- DIRECTIVES --}}
     <script src="{{ asset('build/js/directives/projectFileDownload.js') }}"></script>
+    <script src="{{ asset('build/js/directives/datepickerLocaldate.js') }}"></script>
 
     {{-- FILTERS --}}
     <script src="{{ asset('build/js/filters/date-br.js') }}"></script>
@@ -129,6 +137,7 @@
     <script src="{{ asset('build/js/services/project.js') }}"></script>
     <script src="{{ asset('build/js/services/projectNote.js') }}"></script>
     <script src="{{ asset('build/js/services/projectFile.js') }}"></script>
+    <script src="{{ asset('build/js/services/projectTask.js') }}"></script>
 @else
     <script src="{{ elixir('js/all.js') }}"></script>
 @endif

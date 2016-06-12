@@ -14,6 +14,8 @@
                             <th>Due data</th>
                             <th>Files</th>
                             <th>Notes</th>
+                            <th>Tasks</th>
+                            <th>Members</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -26,6 +28,8 @@
                             <td>{{ project.due_date | dateBr }}</td>
                             <td><a ng-href="#/project/{{ project.id }}/file">View</a></td>
                             <td><a ng-href="#/project/{{ project.id }}/notes">View</a></td>
+                            <td><a ng-href="#/project/{{ project.id }}/task">View</a></td>
+                            <td><a ng-href="#/project/{{ project.id }}/members">View</a></td>
                             <td>
                                 <a ng-href="#/projects/{{ project.id }}/edit">Edit</a>
                                 <a ng-href="#/projects/{{ project.id }}/remove">Delete</a>

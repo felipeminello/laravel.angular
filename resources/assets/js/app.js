@@ -1,7 +1,7 @@
 var app = angular.module('app',
     [
         'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives', 'ui.bootstrap.typeahead',
-        'ui.bootstrap.datepickerPopup', 'ui.bootstrap.tpls', 'ngFileUpload'
+        'ui.bootstrap.datepickerPopup', 'ui.bootstrap.tpls', 'ui.bootstrap', 'ngFileUpload'
     ]);
 
 angular.module('app.controllers', ['ngMessages']);
@@ -20,7 +20,9 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
             ]
         },
         urls: {
-            projectFile: '/project/{{id}}/file/{{idFile}}'
+            projectFile: '/project/{{id}}/file/{{idFile}}',
+            projectTask: '/project/{{id}}/task/{{idTask}}'
+
         },
         utils: {
             transformRequest: function(data) {
@@ -140,6 +142,22 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
         .when('/project/:id/file/:idFile/remove', {
             templateUrl: 'build/views/project-file/remove.html',
             controller: 'ProjectFileRemoveController'
+        })
+        .when('/project/:id/task', {
+            templateUrl: 'build/views/project-task/list.html',
+            controller: 'ProjectTaskListController'
+        })
+        .when('/project/:id/task/new', {
+            templateUrl: 'build/views/project-task/new.html',
+            controller: 'ProjectTaskNewController'
+        })
+        .when('/project/:id/task/:idTask/edit', {
+            templateUrl: 'build/views/project-task/edit.html',
+            controller: 'ProjectTaskEditController'
+        })
+        .when('/project/:id/task/:idTask/remove', {
+            templateUrl: 'build/views/project-task/remove.html',
+            controller: 'ProjectTaskRemoveController'
         });
 
     OAuthProvider.configure({

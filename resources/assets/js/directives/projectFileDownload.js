@@ -4,10 +4,10 @@ angular.module('app.directives')
             return {
                 restrict: 'E',
                 templateUrl: appConfig.baseUrl + '/build/views/templates/projectFileDownload.html',
-                link: function(scope, element, attr) {
+                link: function (scope, element, attr) {
                     var anchor = element.children()[0];
 
-                    scope.$on('salvar-arquivo', function(event, data) {
+                    scope.$on('salvar-arquivo', function (event, data) {
                         $(anchor).addClass('disabled').text('Loading');
 
                         $(anchor)
@@ -17,16 +17,17 @@ angular.module('app.directives')
                                 href: 'data:application-octet-stream;base64,' + data.file,
                                 download: data.name
                             });
-                        $timeout(function() {
-                            scope.downloadFile = function() {};
+                        $timeout(function () {
+                            scope.downloadFile = function () {
+                            };
 
                             $(anchor)[0].click();
                         });
                     });
                 },
-                controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
-                    $scope.downloadFile = function() {
-                        ProjectFile.download({id: $attrs.idProject, idFile: $attrs.idFile}, function(data) {
+                controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+                    $scope.downloadFile = function () {
+                        ProjectFile.download({id: $attrs.idProject, idFile: $attrs.idFile}, function (data) {
                             $scope.$emit('salvar-arquivo', data);
                         });
                     };
@@ -34,4 +35,3 @@ angular.module('app.directives')
             };
         }]
     );
-

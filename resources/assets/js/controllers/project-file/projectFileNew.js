@@ -18,9 +18,6 @@ angular.module('app.controllers')
 
         $scope.save = function () {
             if ($scope.form.$valid) {
-
-                
-
                 Upload.upload({
                     url: url,
                     data: {
@@ -28,7 +25,6 @@ angular.module('app.controllers')
                         description: $scope.projectFile.description,
                         file: $scope.projectFile.file
                     }
-
                 }).then(function (resp) {
                     console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
 
