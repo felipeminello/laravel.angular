@@ -4,12 +4,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Exclusão de arquivo do projeto</div>
                 <div class="panel-body">
-                    <p>Confirma exclusão este arquivo do projeto?</p>
+                    <p>Confirma exclusão deste arquivo do projeto?</p>
                     <ul>
-                        <li><strong>Project:</strong> {{ project.project }}</li>
+                        <li><strong>Project:</strong> {{ project.name }}</li>
                         <li><strong>Name:</strong> {{ projectFile.name }}</li>
                         <li><strong>Description:</strong> {{ projectFile.description }}</li>
-                        <li><strong>File:</strong> <project-file-download id-file="{{ projectFile.id }}" id-project="{{ project.project_id }}"></project-file-download></li>
+                        <li><strong>File:</strong> <project-file-download id-file="{{ projectFile.id }}" id-project="{{ project.id }}"></project-file-download></li>
 
                     </ul>
                     <div class="form-group col-lg-12">

@@ -114,6 +114,33 @@ class ProjectService
 
 	/**
 	 * @param $projectId
+	 *
+	 * @return array
+	 */
+	public function showMember($projectId, $memberId)
+	{
+		try {
+			$members = $this->showMembers($projectId);
+
+			foreach ($members as $member)
+			{
+				if ($memberId == $member->id)
+				{
+					return $member;
+				}
+			}
+
+			return null;
+		} catch (ValidatorException $e) {
+			return [
+				'error'   => true,
+				'message' => $e->getMessageBag()
+			];
+		}
+	}
+
+	/**
+	 * @param $projectId
 	 * @param $memberId
 	 *
 	 * @return array
@@ -129,7 +156,7 @@ class ProjectService
 			];
 		}
 	}
-
+/*
 	public function listMemberOwner($userId)
 	{
 		return $this->repository->scopeQuery(function($query) use ($userId) {
@@ -138,7 +165,7 @@ class ProjectService
 			})->where('owner_id', '=', $userId)->orWhere('member_id', '=', $userId)->groupBy('projects.id');
 		})->all();
 	}
-
+*/
 	/**
 	 * @param $projectId
 	 *

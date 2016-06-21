@@ -11,14 +11,13 @@ angular.module('app.controllers')
 
         $scope.projects = Project.query();
 
-        $scope.save = function () {
-            if ($scope.form.$valid) {
-
-                var url = appConfig.baseUrl + Url.getUrlFromUrlSymbol(appConfig.urls.projectFile, {
+        var url = appConfig.baseUrl + Url.getUrlFromUrlSymbol(appConfig.urls.projectFile, {
                         id: $routeParams.id,
                         idFile: ''
                     });
 
+        $scope.save = function () {
+            if ($scope.form.$valid) {
                 Upload.upload({
                     url: url,
                     data: {
@@ -26,9 +25,13 @@ angular.module('app.controllers')
                         description: $scope.projectFile.description,
                         file: $scope.projectFile.file
                     }
-
                 }).then(function (resp) {
                     console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+
+                    $location.path(Url.getUrlFromUrlSymbol(appConfig.urls.projectFile, {
+                        id: $routeParams.id,
+                        idFile: ''
+                    }));
                 }, function (resp) {
                     console.log('Error status: ' + resp.status);
                 }, function (evt) {

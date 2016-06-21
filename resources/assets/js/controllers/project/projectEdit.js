@@ -5,10 +5,10 @@ angular.module('app.controllers')
 
                 Project.get({id: $routeParams.id}, function (data) {
                     $scope.project = data;
-                    $scope.clientSelected = data.client;
+                    $scope.clientSelected = data.client.data[0];
                     $scope.project.progress = parseInt($scope.project.progress);
 
-                    Client.get({id: data.client_id}, function (data) {
+                    Client.get({id: data.client.data[0].id}, function (data) {
                         $scope.clientSelected = data;
                     });
                 });
@@ -35,6 +35,7 @@ angular.module('app.controllers')
                 $scope.save = function () {
                     if ($scope.form.$valid) {
                         $scope.project.owner_id = $cookies.getObject('user').id;
+                        $scope.project.client_id = $scope.clientSelected.id;
 
                         Project.update({id: $scope.project.id}, $scope.project, function () {
                             $location.path('/projects');

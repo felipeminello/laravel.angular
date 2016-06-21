@@ -20,14 +20,14 @@
                             <td>{{ pf.id }}</td>
                             <td>{{ pf.name }}</td>
                             <td>{{ pf.description | limitTo: 25 }}</td>
-                            <td>{{ pf.project.data[0].project }}</td>
+                            <td>{{ pf.project.data[0].name }}</td>
                             <td>
                                 <!--<a ng-href="/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/download" target="_blank">Download</a>-->
-                                <project-file-download id-file="{{ pf.id }}" id-project="{{ pf.project.data[0].project_id }}"></project-file-download>
+                                <project-file-download id-file="{{ pf.id }}" id-project="{{ pf.project.data[0].id }}"></project-file-download>
                             </td>
                             <td>
-                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/edit">Edit</a>
-                                <a ng-href="#/project/{{ pf.project.data[0].project_id }}/file/{{ pf.id }}/remove">Delete</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].id }}/file/{{ pf.id }}/edit">Edit</a>
+                                <a ng-href="#/project/{{ pf.project.data[0].id }}/file/{{ pf.id }}/remove">Delete</a>
                             </td>
                         </tr>
                         </tbody>

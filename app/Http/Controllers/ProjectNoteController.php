@@ -6,6 +6,7 @@ use Authorizer;
 use CodeProject\Repositories\ProjectNoteRepository;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ProjectNoteService;
+use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
@@ -29,22 +30,29 @@ class ProjectNoteController extends Controller
 	private $projectRepository;
 
 	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
+
+	/**
 	 * ProjectNoteController constructor.
 	 *
 	 * @param ProjectNoteRepository $projectNoteRepository
 	 * @param ProjectNoteService    $projectNoteService
 	 * @param ProjectRepository     $projectRepository
+	 * @param ProjectService        $projectService
 	 */
-	public function __construct(ProjectNoteRepository $projectNoteRepository, ProjectNoteService $projectNoteService, ProjectRepository $projectRepository)
+	public function __construct(ProjectNoteRepository $projectNoteRepository, ProjectNoteService $projectNoteService, ProjectRepository $projectRepository, ProjectService $projectService)
 	{
 		$this->repository = $projectNoteRepository;
 		$this->service = $projectNoteService;
 		$this->projectRepository = $projectRepository;
+		$this->projectService = $projectService;
 	}
 
 	public function index($id)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
@@ -57,15 +65,17 @@ class ProjectNoteController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, $id)
 	{
-		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+		// $projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+		$data = $request->all();
+		$data['project_id'] = $id;
 		
-		if ($this->checkProjectPermissions($projectId) == false) {
+		if ($this->projectService->checkProjectPermissions($data['project_id']) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->service->create($request->all());
+		return $this->service->create($data);
 	}
 
 	/**
@@ -76,7 +86,7 @@ class ProjectNoteController extends Controller
 	 */
 	public function show($id, $noteId)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
@@ -100,11 +110,14 @@ class ProjectNoteController extends Controller
 	 */
 	public function update(Request $request, $id, $noteId)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		$data = $request->all();
+		$data['project_id'] = $id;
+
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->service->update($request->all(), $noteId);
+		return $this->service->update($data, $noteId);
 	}
 
 	/**
@@ -116,7 +129,7 @@ class ProjectNoteController extends Controller
 	public function destroy($id, $noteId)
 	{
 
-		if ($this->checkProjectPermissions($id) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
@@ -133,43 +146,5 @@ class ProjectNoteController extends Controller
 		} catch (\Exception $e) {
 			return ['error' => $e->getMessage()];
 		}
-	}
-
-	/**
-	 * @param $projectId
-	 *
-	 * @return mixed
-	 */
-	private function checkProjectOwner($projectId)
-	{
-		$userId = Authorizer::getResourceOwnerId();
-
-		return $this->projectRepository->isOwner($projectId, $userId);
-	}
-
-	/**
-	 * @param $projectId
-	 *
-	 * @return mixed
-	 */
-	private function checkProjectMember($projectId)
-	{
-		$userId = Authorizer::getResourceOwnerId();
-
-		return $this->projectRepository->hasMember($projectId, $userId);
-	}
-
-	/**
-	 * @param $projectId
-	 *
-	 * @return bool
-	 */
-	private function checkProjectPermissions($projectId)
-	{
-		if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId))
-			return true;
-		else
-			return false;
-
 	}
 }

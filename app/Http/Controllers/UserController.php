@@ -3,7 +3,7 @@
 namespace CodeProject\Http\Controllers;
 
 use Authorizer;
-use CodeProject\Entities\User;
+use CodeProject\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
@@ -11,15 +11,20 @@ use CodeProject\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-	private $user;
+	private $repository;
 
-	public function __construct(User $user)
+	public function __construct(UserRepository $repository)
 	{
-		$this->user = $user;
+		$this->repository = $repository;
 	}
 
 	public function show()
 	{
-		return $this->user->find(Authorizer::getResourceOwnerId());
+		return $this->repository->skipPresenter()->find(Authorizer::getResourceOwnerId());
+	}
+
+	public function index()
+	{
+		return $this->repository->all();
 	}
 }

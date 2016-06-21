@@ -67,6 +67,10 @@ class ProjectFileController extends Controller
 	 */
 	public function store(Request $request, $id)
 	{
+		if ($this->projectService->checkProjectPermissions($id) === false) {
+			return ['error' => 'Access Forbidden'];
+		}
+		
 		$file = $request->file('file');
 		$extension = $file->getClientOriginalExtension();
 
@@ -92,11 +96,14 @@ class ProjectFileController extends Controller
 
 	public function update(Request $request, $id, $fileId)
 	{
+		$data = $request->all();
+		$data['project_id'] = $id;
+
 		if ($this->projectService->checkProjectPermissions($id) === false) {
 			return ['error' => 'Access Forbidden'];
 		}
 
-		return $this->service->update($request->all(), $fileId);
+		return $this->service->update($data, $fileId);
 	}
 
 	public function download($id, $fileId)

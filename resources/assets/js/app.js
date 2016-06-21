@@ -1,7 +1,7 @@
 var app = angular.module('app',
     [
         'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives', 'ui.bootstrap.typeahead',
-        'ui.bootstrap.datepickerPopup', 'ui.bootstrap.tpls', 'ngFileUpload'
+        'ui.bootstrap.datepickerPopup', 'ui.bootstrap.tpls', 'ui.bootstrap', 'ngFileUpload'
     ]);
 
 angular.module('app.controllers', ['ngMessages']);
@@ -20,7 +20,9 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
             ]
         },
         urls: {
-            projectFile: '/project/{{id}}/file/{{idFile}}'
+            projectFile: '/project/{{id}}/file/{{idFile}}',
+            projectTask: '/project/{{id}}/task/{{idTask}}'
+
         },
         utils: {
             transformRequest: function(data) {
@@ -63,6 +65,29 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
 
     $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
     $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
+
+/*
+    $httpProvider.interceptors.push(function($q) {
+        return {
+            'request': function(config) {
+                console.log('I will send a request to the server');
+                return config;
+            },
+
+            'response': function(response) {
+                // called if HTTP CODE = 2xx
+                console.log('I got a sucessfull response from server: ', response);
+                return response;
+            },
+
+            'responseError': function(rejection) {
+                // called if HTTP CODE != 2xx
+                console.log('I got an error from server');
+                return $q.reject(rejection);
+            }
+        };
+    });
+*/
 
     $routeProvider
         .when('/login', {
@@ -140,6 +165,38 @@ app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvi
         .when('/project/:id/file/:idFile/remove', {
             templateUrl: 'build/views/project-file/remove.html',
             controller: 'ProjectFileRemoveController'
+        })
+        .when('/project/:id/task', {
+            templateUrl: 'build/views/project-task/list.html',
+            controller: 'ProjectTaskListController'
+        })
+        .when('/project/:id/task/new', {
+            templateUrl: 'build/views/project-task/new.html',
+            controller: 'ProjectTaskNewController'
+        })
+        .when('/project/:id/task/:idTask/edit', {
+            templateUrl: 'build/views/project-task/edit.html',
+            controller: 'ProjectTaskEditController'
+        })
+        .when('/project/:id/task/:idTask/remove', {
+            templateUrl: 'build/views/project-task/remove.html',
+            controller: 'ProjectTaskRemoveController'
+        })
+        .when('/project/:id/member', {
+            templateUrl: 'build/views/project-member/list.html',
+            controller: 'ProjectMemberListController'
+        })
+        .when('/project/:id/member/new', {
+            templateUrl: 'build/views/project-member/new.html',
+            controller: 'ProjectMemberNewController'
+        })
+        .when('/project/:id/member/:idMember/edit', {
+            templateUrl: 'build/views/project-member/edit.html',
+            controller: 'ProjectMemberEditController'
+        })
+        .when('/project/:id/member/:idMember/remove', {
+            templateUrl: 'build/views/project-member/remove.html',
+            controller: 'ProjectMemberRemoveController'
         });
 
     OAuthProvider.configure({
@@ -168,7 +225,7 @@ app.run(['$rootScope', '$window', '$cookieStore', '$http', 'OAuth', function ($r
                 'Authorization': 'Bearer ' + token
             }
         }).then(function (response) {
-            console.log(response.data);
+            // console.log(response);
         });
     }
 

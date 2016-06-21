@@ -48,14 +48,17 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 	Route::group(['middleware' => 'oauth'], function () {
 		Route::group(['prefix' => 'user'], function() {
 			Route::get('/', 'UserController@show');
+			Route::get('/index', 'UserController@index');
 			Route::get('authenticated', 'UserController@show');
 		});
 
 		Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
+		Route::resource('user', 'UserController', ['except' => ['create', 'edit']]);
+
 		Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
 
-		Route::group(['prefix' => 'project'], function () {
+		Route::group(['prefix' => 'project', 'middleware' => 'check-project-permission'], function () {
 			Route::get('{id}/note', 'ProjectNoteController@index');
 			Route::post('{id}/note', 'ProjectNoteController@store');
 			Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
@@ -75,9 +78,11 @@ Route::group(['middleware' => 'clear-view-cache'], function() {
 			Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
 			Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
 
-			Route::get('{id}/members', 'ProjectMemberController@index');
-			Route::post('{id}/members', 'ProjectMemberController@store');
-			Route::delete('{id}/members/{memberId}', 'ProjectMemberController@destroy');
+			Route::get('{id}/member', 'ProjectMemberController@index');
+			Route::post('{id}/member', 'ProjectMemberController@store');
+			Route::get('{id}/member/{memberId}', 'ProjectMemberController@show');
+			Route::put('{id}/member/{memberId}', 'ProjectMemberController@update');
+			Route::delete('{id}/member/{memberId}', 'ProjectMemberController@destroy');
 		});
 	});
 });

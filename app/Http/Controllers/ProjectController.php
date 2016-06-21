@@ -19,13 +19,17 @@ class ProjectController extends Controller
 	{
 		$this->repository = $projectRepository;
 		$this->service = $projectService;
+
+		$this->middleware('check-project-owner', ['except' => ['store', 'show', 'index']]);
+		$this->middleware('check-project-permission', ['except' => ['index', 'store', 'update', 'destroy']]);
 	}
 
 	public function index()
 	{
 		$userId = Authorizer::getResourceOwnerId();
 
-		return $this->service->listMemberOwner($userId);
+//		return $this->service->listMemberOwner($userId);
+		return $this->repository->findWithOwnerAndMember($userId);
 	}
 
 	/**
@@ -85,7 +89,6 @@ class ProjectController extends Controller
 			return ['error' => 'Access forbidden'];
 		}
 
-		$this->repository->find($id)->delete();
+		$this->repository->delete($id);
 	}
-
 }

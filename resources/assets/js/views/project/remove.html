@@ -7,7 +7,7 @@
                     <p>Confirma exclusão do projeto?</p>
                     <ul>
                         <li><strong>Name:</strong> {{ project.name }}</li>
-                        <li><strong>Client:</strong> {{ project.client.name }}</li>
+                        <li><strong>Client:</strong> {{ project.client.data[0].name }}</li>
                     </ul>
                     <div class="form-group col-lg-12">
                         <button type="button" class="btn btn-lg btn-danger btn-primary" ng-click="remove()">Excluir</button>

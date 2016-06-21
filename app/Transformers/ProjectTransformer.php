@@ -2,6 +2,7 @@
 
 namespace CodeProject\Transformers;
 
+use Authorizer;
 use CodeProject\Entities\Project;
 use League\Fractal\TransformerAbstract;
 
@@ -12,13 +13,14 @@ class ProjectTransformer extends TransformerAbstract
 	public function transform(Project $project)
 	{
 		return [
-			'project_id'  => $project->id,
+			'id'          => $project->id,
 			'owner_id'    => $project->owner_id,
-			'project'     => $project->name,
+			'name'        => $project->name,
 			'description' => $project->description,
 			'progress'    => (int)$project->progress,
 			'status'      => $project->status,
-			'due_date'    => $project->due_date
+			'due_date'    => $project->due_date,
+			'is_member'   => $project->owner_id != Authorizer::getResourceOwnerId(),
 		];
 	}
 
