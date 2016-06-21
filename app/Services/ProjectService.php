@@ -114,6 +114,33 @@ class ProjectService
 
 	/**
 	 * @param $projectId
+	 *
+	 * @return array
+	 */
+	public function showMember($projectId, $memberId)
+	{
+		try {
+			$members = $this->showMembers($projectId);
+
+			foreach ($members as $member)
+			{
+				if ($memberId == $member->id)
+				{
+					return $member;
+				}
+			}
+
+			return null;
+		} catch (ValidatorException $e) {
+			return [
+				'error'   => true,
+				'message' => $e->getMessageBag()
+			];
+		}
+	}
+
+	/**
+	 * @param $projectId
 	 * @param $memberId
 	 *
 	 * @return array

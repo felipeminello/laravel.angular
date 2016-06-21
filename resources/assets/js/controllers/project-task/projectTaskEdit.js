@@ -38,8 +38,14 @@ angular.module('app.controllers')
                     ProjectTask.update({
                         id: $routeParams.id,
                         idTask: $routeParams.idTask
-                    }, $scope.projectTask, function () {
-                        $location.path('/project/' + $routeParams.id + '/task');
+                    }, $scope.projectTask).$promise.then(function (response) {
+                        if (response.error === true) {
+                            console.log(response.message);
+                        } else {
+                            $location.path('/project/' + $routeParams.id + '/task');
+                        }
+                    }, function(response) {
+                        console.log('ERROR: ', response);
                     });
                 }
             }
