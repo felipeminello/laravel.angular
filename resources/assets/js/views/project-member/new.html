@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Cadastro de membro de projeto</div>
+                <div class="panel-body">
+                    <form class="form" name="form" role="form" ng-submit="save()">
+
+                        <div class="form-group col-md-6">
+                            <label>Projeto</label>
+
+                            <input type="text" class="form-control" name="name" ng-model="project.name" disabled>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-class="{'has-error': !form.member_id.$valid && form.member_id.$touched}">
+                            <label>Membro</label>
+                            <input type="text" class="form-control" name="member_id" ng-model="memberSelected"
+                                   typeahead-input-formatter="formatName($model)"
+                                   uib-typeahead="o as o.name for o in getMembers($viewValue) | limitTo:10"
+                                   typeahead-on-select="selectMember($item)"
+                                   typeahead-editable="false"
+                                   required autocomplete="off">
+                            <div ng-messages="form.member_id.$error" class="help-block" ng-show="form.member_id.$touched">
+                                <div ng-message="required">Campo obrigatório</div>
+                                <div ng-message="editable">Selecione um member válido</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-12">
+
+                            <button type="submit" class="btn btn-lg btn-primary">Enviar</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

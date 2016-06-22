@@ -5,6 +5,7 @@ namespace CodeProject\Http\Controllers;
 use Authorizer;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Repositories\ProjectTaskRepository;
+use CodeProject\Services\ProjectService;
 use CodeProject\Services\ProjectTaskService;
 use Illuminate\Http\Request;
 
@@ -28,17 +29,24 @@ class ProjectTaskController extends Controller
 	private $projectRepository;
 
 	/**
+	 * @var ProjectService
+	 */
+	private $projectService;
+
+	/**
 	 * ProjectTaskController constructor.
 	 *
 	 * @param ProjectTaskService    $projectTaskService
 	 * @param ProjectTaskRepository $projectTaskRepository
 	 * @param ProjectRepository     $projectRepository
+	 * @param ProjectService        $projectService
 	 */
-	public function __construct(ProjectTaskService $projectTaskService, ProjectTaskRepository $projectTaskRepository, ProjectRepository $projectRepository)
+	public function __construct(ProjectTaskService $projectTaskService, ProjectTaskRepository $projectTaskRepository, ProjectRepository $projectRepository, ProjectService $projectService)
 	{
 		$this->service = $projectTaskService;
 		$this->repository = $projectTaskRepository;
 		$this->projectRepository = $projectRepository;
+		$this->projectService = $projectService;
 	}
 
 	/**
@@ -50,7 +58,7 @@ class ProjectTaskController extends Controller
 	 */
 	public function index($id)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
@@ -64,15 +72,17 @@ class ProjectTaskController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, $id)
 	{
-		$projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+		// $projectId = ($request->exists('project_id')) ? $request->get('project_id') : 0;
+		$data = $request->all();
+		$data['project_id'] = $id;
 
-		if ($this->checkProjectPermissions($projectId) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->service->create($request->all());
+		return $this->service->create($data);
 	}
 
 	/**
@@ -85,7 +95,7 @@ class ProjectTaskController extends Controller
 	 */
 	public function show($id, $taskId)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
@@ -104,11 +114,14 @@ class ProjectTaskController extends Controller
 	 */
 	public function update(Request $request, $id, $taskId)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		$data = $request->all();
+		$data['project_id'] = $id;
+
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		return $this->service->update($request->all(), $taskId);
+		return $this->service->update($data, $taskId);
 	}
 
 	/**
@@ -120,47 +133,10 @@ class ProjectTaskController extends Controller
 	 */
 	public function destroy($id, $taskId)
 	{
-		if ($this->checkProjectPermissions($id) == false) {
+		if ($this->projectService->checkProjectPermissions($id) == false) {
 			return ['error' => 'Access forbidden'];
 		}
 
-		$this->repository->find($taskId)->delete();
-	}
-
-	/**
-	 * @param $projectId
-	 *
-	 * @return mixed
-	 */
-	private function checkProjectOwner($projectId)
-	{
-		$userId = Authorizer::getResourceOwnerId();
-
-		return $this->projectRepository->isOwner($projectId, $userId);
-	}
-
-	/**
-	 * @param $projectId
-	 *
-	 * @return mixed
-	 */
-	private function checkProjectMember($projectId)
-	{
-		$userId = Authorizer::getResourceOwnerId();
-
-		return $this->projectRepository->hasMember($projectId, $userId);
-	}
-
-	/**
-	 * @param $projectId
-	 *
-	 * @return bool
-	 */
-	private function checkProjectPermissions($projectId)
-	{
-		if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId))
-			return true;
-		else
-			return false;
+		$this->repository->skipPresenter()->find($taskId)->delete();
 	}
 }

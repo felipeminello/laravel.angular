@@ -3,6 +3,7 @@
 namespace CodeProject\Repositories;
 
 use CodeProject\Presenters\ProjectFilePresenter;
+use CodeProject\Validators\ProjectFileValidator;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeProject\Entities\ProjectFile;

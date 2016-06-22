@@ -1,0 +1,22 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Exclusão de nota do projeto</div>
+                <div class="panel-body">
+                    <p>Confirma exclusão da nota do projeto?</p>
+                    <ul>
+                        <li><strong>Project:</strong> {{ projectNote.project.data[0].name }}</li>
+                        <li><strong>Title:</strong> {{ projectNote.title }}</li>
+                        <li><strong>Note:</strong> {{ projectNote.note }}</li>
+
+                    </ul>
+                    <div class="form-group col-lg-12">
+                        <button type="button" class="btn btn-lg btn-danger btn-primary" ng-click="remove()">Excluir</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
