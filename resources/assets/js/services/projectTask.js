@@ -1,15 +1,20 @@
 angular.module('app.services')
     .service('ProjectTask', ['$resource', '$filter', 'Url', 'appConfig', function ($resource, $filter, Url, appConfig) {
         function transformData(data) {
-            if (angular.isObject(data) && data.hasOwnProperty('due_date')) {
+            if (angular.isObject(data)) {
                 var o = angular.copy(data);
 
-                o.due_date = $filter('date')(data.due_date, 'yyyy-MM-dd HH:mm:ss');
-                o.start_date = $filter('date')(data.start_date, 'yyyy-MM-dd HH:mm:ss');
+                if (data.hasOwnProperty('due_date')) {
+                    o.due_date = $filter('date')(data.due_date, 'yyyy-MM-dd HH:mm:ss');
+                }
+
+                if (data.hasOwnProperty('start_date')) {
+                    o.start_date = $filter('date')(data.start_date, 'yyyy-MM-dd HH:mm:ss');
+                }
 
                 return appConfig.utils.transformRequest(o);
             }
-
+            
             return data;
         }
 
